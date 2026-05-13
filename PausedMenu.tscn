@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://ba4gkbbbp3dbm"]
+
+[ext_resource type="Script" uid="uid://0tp240u44qp4" path="res://PausedMenu.gd" id="1_4g16n"]
+
+[node name="PausedMenu" type="Control" unique_id=1386088285]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4g16n")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1209673811]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=901986084]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = -114.0
+offset_right = 66.0
+offset_bottom = 114.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 8
+
+[node name="Label" type="Label" parent="GridContainer" unique_id=385927661]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="GridContainer" unique_id=1212463560]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Resume"
+
+[node name="QuitButton" type="Button" parent="GridContainer" unique_id=1214239677]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+
+[node name="SettingsButton" type="Button" parent="GridContainer" unique_id=1507742283]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Settings"
+
+[connection signal="pressed" from="GridContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="GridContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="GridContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

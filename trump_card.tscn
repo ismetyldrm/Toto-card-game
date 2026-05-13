@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://drfgsbv5kq3g3"]
+
+[ext_resource type="Texture2D" uid="uid://davsv4ulnpilw" path="res://Cards/clubs_02.png" id="1_836cr"]
+[ext_resource type="Texture2D" uid="uid://bh6vwoesrrvtv" path="res://Cards/diamonds_02.png" id="2_g17bw"]
+[ext_resource type="Texture2D" uid="uid://bh0dj8u2v2t1h" path="res://Cards/hearts_02.png" id="3_io8ge"]
+[ext_resource type="Texture2D" uid="uid://bptwc847pw1a3" path="res://Cards/spades_02.png" id="4_q12di"]
+
+[node name="TrumpCard" type="Control" unique_id=332928309]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NoNumberClubs02" type="Sprite2D" parent="." unique_id=845826545]
+position = Vector2(786.00006, 540)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("1_836cr")
+
+[node name="ColorRect" type="ColorRect" parent="NoNumberClubs02" unique_id=620456153]
+offset_left = -163.22313
+offset_top = -241.7355
+offset_right = -95.04137
+offset_bottom = -136.36356
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="NoNumberClubs02" unique_id=381444729]
+offset_left = 95.041275
+offset_top = 136.36356
+offset_right = 163.22316
+offset_bottom = 243.80179
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+
+[node name="NoNumberDiamonds02" type="Sprite2D" parent="." unique_id=1660826959]
+position = Vector2(1233.0001, 542)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("2_g17bw")
+
+[node name="ColorRect3" type="ColorRect" parent="NoNumberDiamonds02" unique_id=1633764904]
+offset_left = 95.04126
+offset_top = 138.42981
+offset_right = 163.22314
+offset_bottom = 241.73547
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="NoNumberDiamonds02" unique_id=352441616]
+offset_left = -163.22314
+offset_top = -241.73547
+offset_right = -92.97534
+offset_bottom = -136.36365
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+
+[node name="NoNumberHearts02" type="Sprite2D" parent="." unique_id=1639570334]
+position = Vector2(568, 540)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("3_io8ge")
+
+[node name="ColorRect" type="ColorRect" parent="NoNumberHearts02" unique_id=2123669879]
+offset_left = -163.22319
+offset_top = -241.7355
+offset_right = -92.975204
+offset_bottom = -136.36368
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="NoNumberHearts02" unique_id=1819397969]
+offset_left = 95.04134
+offset_top = 136.3637
+offset_right = 163.22318
+offset_bottom = 243.80168
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+
+[node name="NoNumberSpades02" type="Sprite2D" parent="." unique_id=1767684404]
+position = Vector2(1007.0001, 545.00006)
+scale = Vector2(0.484, 0.484)
+texture = ExtResource("4_q12di")
+
+[node name="ColorRect" type="ColorRect" parent="NoNumberSpades02" unique_id=708813504]
+offset_left = 95.04119
+offset_top = 136.36371
+offset_right = 163.22308
+offset_bottom = 241.73553
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="NoNumberSpades02" unique_id=2569061]
+offset_left = -163.22307
+offset_top = -241.7355
+offset_right = -92.975266
+offset_bottom = -136.36362
+color = Color(0.92156863, 0.9411765, 0.9647059, 1)

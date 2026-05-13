@@ -1,0 +1,362 @@
+[gd_scene format=3 uid="uid://3s7j3c3yexie"]
+
+[ext_resource type="Script" uid="uid://dltkoqeqsi76v" path="res://CardManager.gd" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://p1r3e6b6nq40" path="res://9999520.jpg" id="1_272bh"]
+[ext_resource type="Script" uid="uid://dvd4xsjms5lic" path="res://PlayerHand.gd" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cbp6bambhshfs" path="res://Scenes/CardSlot.tscn" id="3_h2yge"]
+[ext_resource type="Texture2D" uid="uid://kufi1mk8olka" path="res://Cards/back01.png" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://oyufchgx3qa6" path="res://Deck.gd" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://b3wfp3q2samu6" path="res://InputManager.gd" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://bl4h4toami041" path="res://OpponentHand.tscn" id="8_5vw27"]
+[ext_resource type="Texture2D" uid="uid://dpxxlq5ndipx7" path="res://vecteezy_turkish-tea-illustration_38050393.png" id="9_kek77"]
+[ext_resource type="Script" uid="uid://c80hyxn4euvx6" path="res://MainChat.gd" id="10_efxa6"]
+[ext_resource type="Script" uid="uid://b7p2k5q3jxcvc" path="res://Account.gd" id="11_ycdy4"]
+[ext_resource type="Script" uid="uid://kcmfw7vbkw53" path="res://ScoreBoardManager.gd" id="12_dg77c"]
+[ext_resource type="PackedScene" uid="uid://ba4gkbbbp3dbm" path="res://PausedMenu.tscn" id="13_ycdy4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
+size = Vector2(171, 262)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kek77"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.13501206, 0.13501206, 0.135012, 1)
+
+[sub_resource type="Resource" id="Resource_w48qg"]
+script = ExtResource("11_ycdy4")
+username = "Linbozo"
+description = "I like card games"
+metadata/_custom_type_script = "uid://b7p2k5q3jxcvc"
+
+[node name="Main" type="Node2D" unique_id=756828249]
+position = Vector2(2, 25)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1255483684]
+z_index = -2
+offset_top = -31.0
+offset_right = 3000.0
+offset_bottom = 1969.0
+texture = ExtResource("1_272bh")
+
+[node name="CardManager" type="Node2D" parent="." unique_id=1479037975]
+script = ExtResource("1_0xm2m")
+
+[node name="CardSlot" parent="." unique_id=980458350 instance=ExtResource("3_h2yge")]
+z_index = -1
+position = Vector2(1500, 1068)
+
+[node name="Opponent2CardSlot" parent="." unique_id=120272638 instance=ExtResource("3_h2yge")]
+z_index = -1
+position = Vector2(1500, 776)
+
+[node name="Opponent3CardSlot" parent="." unique_id=1383684942 instance=ExtResource("3_h2yge")]
+z_index = -1
+position = Vector2(1727, 916)
+
+[node name="Opponent1CardSlot" parent="." unique_id=2100200374 instance=ExtResource("3_h2yge")]
+z_index = -1
+position = Vector2(1265, 916)
+
+[node name="PlayerHand" type="Node2D" parent="." unique_id=35678821]
+position = Vector2(1500, 1800)
+script = ExtResource("3_1bvp3")
+
+[node name="Deck" type="Node2D" parent="." unique_id=1390371590]
+position = Vector2(300, 1600)
+script = ExtResource("4_lquwl")
+
+[node name="Sprite2D" type="Sprite2D" parent="Deck" unique_id=1483889973]
+z_index = -2
+position = Vector2(1.0000095, 2.9999676)
+scale = Vector2(0.48082379, 0.5068358)
+texture = ExtResource("4_1bvp3")
+
+[node name="Area2D" type="Area2D" parent="Deck" unique_id=981490125]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Deck/Area2D" unique_id=1862571956]
+position = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_h2yge")
+
+[node name="InputManager" type="Node2D" parent="." unique_id=1799585418]
+position = Vector2(-8, -2)
+script = ExtResource("6_7mycd")
+
+[node name="OpponentHand1" parent="." unique_id=1263266665 instance=ExtResource("8_5vw27")]
+position = Vector2(300, 916)
+hand_direction = "vertical"
+hand_side = "Left"
+
+[node name="OpponentHand2" parent="." unique_id=1303253121 instance=ExtResource("8_5vw27")]
+position = Vector2(1500, 182)
+
+[node name="OpponentHand3" parent="." unique_id=550644154 instance=ExtResource("8_5vw27")]
+position = Vector2(2600, 916)
+hand_direction = "vertical"
+hand_side = "Right"
+
+[node name="VecteezyTurkishTeaIllustration38050393" type="Sprite2D" parent="." unique_id=961852985]
+position = Vector2(4048.0002, 1316)
+scale = Vector2(0.07908537, 0.09714148)
+texture = ExtResource("9_kek77")
+
+[node name="BiddingPanel" type="PanelContainer" parent="." unique_id=3984626]
+process_mode = 1
+visible = false
+offset_left = 1103.0
+offset_top = 309.0
+offset_right = 1901.0
+offset_bottom = 582.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BiddingPanel" unique_id=1446712517]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="BiddingPanel/VBoxContainer" unique_id=1748966754]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 31
+text = "Kaç el alırsın?"
+horizontal_alignment = 1
+vertical_alignment = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BiddingPanel/VBoxContainer" unique_id=747251800]
+layout_mode = 2
+theme_override_constants/separation = 112
+
+[node name="VBoxContainer1" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1602052413]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer1" unique_id=605775460]
+layout_mode = 2
+theme_override_font_sizes/font_size = 31
+text = "Player 1"
+
+[node name="Player1Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer1" unique_id=1389576529]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=852900605]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1642765224]
+layout_mode = 2
+theme_override_font_sizes/font_size = 31
+text = "Player 2"
+
+[node name="Player2Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1687675202]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1639258586]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer3" unique_id=847704413]
+layout_mode = 2
+theme_override_font_sizes/font_size = 31
+text = "Player 3"
+
+[node name="Player3Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer3" unique_id=566060995]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1031952260]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer4" unique_id=1671822113]
+layout_mode = 2
+theme_override_font_sizes/font_size = 31
+text = " Siz"
+
+[node name="Player4Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer4" unique_id=1800413008]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="BiddingPanel/VBoxContainer" unique_id=751675257]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 31
+theme_override_styles/normal = SubResource("StyleBoxFlat_kek77")
+text = "Tahmini Onayla
+"
+
+[node name="MainChat" type="Control" parent="." unique_id=128376862]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_efxa6")
+current_account = SubResource("Resource_w48qg")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainChat" unique_id=973151849]
+layout_mode = 0
+offset_right = 639.0
+offset_bottom = 380.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainChat/MarginContainer" unique_id=2019870468]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainChat/MarginContainer/VBoxContainer" unique_id=1012278971]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChatBox" type="VBoxContainer" parent="MainChat/MarginContainer/VBoxContainer/ScrollContainer" unique_id=186303310]
+layout_mode = 2
+
+[node name="SendMessage" type="LineEdit" parent="MainChat/MarginContainer/VBoxContainer" unique_id=779644300]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 30
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=339485264]
+layer = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=2023641840]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -287.0
+offset_top = -187.0
+offset_right = -122.0
+offset_bottom = -80.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="ScoreStatusLabel" type="Label" parent="CanvasLayer/MarginContainer" unique_id=1374357878]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "HEDEF: 0
+ALINAN: 0"
+
+[node name="ResultLabel" type="Label" parent="CanvasLayer" unique_id=25820664]
+offset_left = 1387.0
+offset_top = 416.0
+offset_right = 1623.0
+offset_bottom = 502.0
+theme_override_font_sizes/font_size = 72
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1316880077]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2" unique_id=1037805208]
+offset_left = 2149.0
+offset_top = 38.0
+offset_right = 2189.0
+offset_bottom = 78.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/MarginContainer" unique_id=511167019]
+layout_mode = 2
+
+[node name="ScoreBoardToggle" type="Button" parent="CanvasLayer2/MarginContainer/VBoxContainer" unique_id=862390669]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Skor Tablosu"
+
+[node name="ScoreBoardPanel" type="PanelContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer" unique_id=1529600513 node_paths=PackedStringArray("score_grid", "scroll_container")]
+visible = false
+layout_mode = 2
+script = ExtResource("12_dg77c")
+score_grid = NodePath("VBoxContainer/ScrollContainer/ScoreGrid")
+scroll_container = NodePath("VBoxContainer/ScrollContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel" unique_id=926087271]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Skor Tablosu" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=1254237222]
+layout_mode = 2
+
+[node name="HeaderGrid" type="GridContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=654418348]
+layout_mode = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 10
+columns = 4
+
+[node name="P1" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=1954273389]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="P2" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=1481098948]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Player 2"
+horizontal_alignment = 1
+
+[node name="P3" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=1051636438]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Player 3"
+horizontal_alignment = 1
+
+[node name="Siz" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=969880127]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Siz"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=796225619]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=1131663523]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScoreGrid" type="GridContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer" unique_id=1671011866]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 10
+columns = 4
+
+[node name="CanvasLayer3" type="CanvasLayer" parent="." unique_id=1669493112]
+
+[node name="PausedMenu" parent="CanvasLayer3" unique_id=1386088285 instance=ExtResource("13_ycdy4")]
+offset_top = 14.0
+offset_right = 130.0
+offset_bottom = 14.0
+
+[node name="Player1" type="Label" parent="." unique_id=1319939725]
+offset_left = 1202.0
+offset_top = 727.0
+offset_right = 1326.0
+offset_bottom = 772.0
+theme_override_font_sizes/font_size = 32
+text = "Player 1"
+
+[node name="Player2" type="Label" parent="." unique_id=557370383]
+offset_left = 1438.0
+offset_top = 586.0
+offset_right = 1562.0
+offset_bottom = 631.0
+theme_override_font_sizes/font_size = 32
+text = "Player 2"
+
+[node name="Player3" type="Label" parent="." unique_id=1286026265]
+offset_left = 1663.0
+offset_top = 729.0
+offset_right = 1787.0
+offset_bottom = 774.0
+theme_override_font_sizes/font_size = 32
+text = "Player 3"
+
+[connection signal="pressed" from="BiddingPanel/VBoxContainer/ConfirmButton" to="CardManager" method="_on_confirm_button_pressed"]
+[connection signal="text_submitted" from="MainChat/MarginContainer/VBoxContainer/SendMessage" to="MainChat" method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardToggle" to="CardManager" method="_on_score_board_toggle_pressed"]

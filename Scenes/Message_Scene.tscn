@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c3dsu7y8p2hyw"]
+
+[ext_resource type="Script" uid="uid://b5pvtx8gpohfu" path="res://Scenes/MessageData.gd" id="1_kd151"]
+
+[node name="Message" type="HBoxContainer" unique_id=1124224772]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 0
+script = ExtResource("1_kd151")
+
+[node name="Background" type="PanelContainer" parent="." unique_id=1645008116]
+layout_mode = 2
+
+[node name="Account" type="Label" parent="Background" unique_id=1158543916]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Username: "
+
+[node name="Background2" type="PanelContainer" parent="." unique_id=1906224696]
+layout_mode = 2
+
+[node name="Message" type="Label" parent="Background2" unique_id=310440516]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Hello world!"
