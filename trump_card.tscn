@@ -14,8 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="NoNumberClubs02" type="Sprite2D" parent="." unique_id=845826545]
-position = Vector2(786.00006, 540)
-scale = Vector2(0.484, 0.484)
+scale = Vector2(0.481, 0.507)
 texture = ExtResource("1_836cr")
 
 [node name="ColorRect" type="ColorRect" parent="NoNumberClubs02" unique_id=620456153]
@@ -24,6 +23,7 @@ offset_top = -241.7355
 offset_right = -95.04137
 offset_bottom = -136.36356
 color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect2" type="ColorRect" parent="NoNumberClubs02" unique_id=381444729]
 offset_left = 95.041275
@@ -31,10 +31,9 @@ offset_top = 136.36356
 offset_right = 163.22316
 offset_bottom = 243.80179
 color = Color(0.92156863, 0.9411765, 0.9647059, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="NoNumberDiamonds02" type="Sprite2D" parent="." unique_id=1660826959]
-position = Vector2(1233.0001, 542)
-scale = Vector2(0.484, 0.484)
 texture = ExtResource("2_g17bw")
 
 [node name="ColorRect3" type="ColorRect" parent="NoNumberDiamonds02" unique_id=1633764904]
@@ -52,8 +51,7 @@ offset_bottom = -136.36365
 color = Color(0.92156863, 0.9411765, 0.9647059, 1)
 
 [node name="NoNumberHearts02" type="Sprite2D" parent="." unique_id=1639570334]
-position = Vector2(568, 540)
-scale = Vector2(0.484, 0.484)
+scale = Vector2(0.481, 0.507)
 texture = ExtResource("3_io8ge")
 
 [node name="ColorRect" type="ColorRect" parent="NoNumberHearts02" unique_id=2123669879]
@@ -71,8 +69,7 @@ offset_bottom = 243.80168
 color = Color(0.92156863, 0.9411765, 0.9647059, 1)
 
 [node name="NoNumberSpades02" type="Sprite2D" parent="." unique_id=1767684404]
-position = Vector2(1007.0001, 545.00006)
-scale = Vector2(0.484, 0.484)
+scale = Vector2(0.481, 0.507)
 texture = ExtResource("4_q12di")
 
 [node name="ColorRect" type="ColorRect" parent="NoNumberSpades02" unique_id=708813504]

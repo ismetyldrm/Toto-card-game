@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://8x8rx13h1sux"]
+
+[ext_resource type="Texture2D" uid="uid://p1r3e6b6nq40" path="res://9999520.jpg" id="1_s7t0x"]
+[ext_resource type="Script" uid="uid://dpi0ea2um80k5" path="res://material/OdaAc.gd" id="2_lkeym"]
+[ext_resource type="Texture2D" uid="uid://dcrdkq3ill02s" path="res://kulluk.png" id="3_gt3an"]
+[ext_resource type="Texture2D" uid="uid://bdrjjnlrholnx" path="res://Cards/clubs_ace.png" id="4_swqht"]
+
+[node name="TextureRect" type="TextureRect" unique_id=1907942121]
+texture = ExtResource("1_s7t0x")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1944986592]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -487.0
+offset_top = -279.0
+offset_right = 530.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_lkeym")
+
+[node name="IsimGirisEkranı" type="VBoxContainer" parent="PanelContainer" unique_id=1543736247]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="OdaIsmi" type="Label" parent="PanelContainer/IsimGirisEkranı" unique_id=1572881352]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Odanın ismini girin: "
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/IsimGirisEkranı" unique_id=48036299]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+max_length = 15
+
+[node name="KullaniciIsmi" type="Label" parent="PanelContainer/IsimGirisEkranı" unique_id=1782937341]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Oyuncu ismi: "
+
+[node name="LineEdit2" type="LineEdit" parent="PanelContainer/IsimGirisEkranı" unique_id=1760230730]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/IsimGirisEkranı" unique_id=28483064]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="KurConfirmButton" type="Button" parent="PanelContainer/IsimGirisEkranı/HBoxContainer" unique_id=1736447814]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Oluştur"
+
+[node name="OdaIptalButton" type="Button" parent="PanelContainer/IsimGirisEkranı/HBoxContainer" unique_id=1224865258]
+layout_mode = 2
+theme_override_constants/h_separation = 11
+theme_override_font_sizes/font_size = 32
+text = "İptal"
+
+[node name="BeklemeEkrani" type="VBoxContainer" parent="PanelContainer" unique_id=1114135421]
+layout_mode = 2
+theme_override_constants/separation = 33
+alignment = 1
+
+[node name="Label" type="Label" parent="PanelContainer/BeklemeEkrani" unique_id=2115408480]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Oyuncular Bekleniyor"
+horizontal_alignment = 1
+
+[node name="OyuncuSayisiLabel" type="Label" parent="PanelContainer/BeklemeEkrani" unique_id=1299573674]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Oyuncu Sayısı: "
+horizontal_alignment = 1
+
+[node name="Noktalar Kutusu" type="HBoxContainer" parent="PanelContainer/BeklemeEkrani" unique_id=1015265661]
+layout_mode = 2
+alignment = 1
+
+[node name="Nokta1" type="Label" parent="PanelContainer/BeklemeEkrani/Noktalar Kutusu" unique_id=1964427922]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "."
+
+[node name="Nokta2" type="Label" parent="PanelContainer/BeklemeEkrani/Noktalar Kutusu" unique_id=1842928806]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "."
+
+[node name="Nokta3" type="Label" parent="PanelContainer/BeklemeEkrani/Noktalar Kutusu" unique_id=1807623750]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "."
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/BeklemeEkrani" unique_id=1384087423]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="PanelContainer/BeklemeEkrani" unique_id=1836044691]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "İptal"
+
+[node name="Kulluk" type="Sprite2D" parent="PanelContainer" unique_id=1543600267]
+position = Vector2(-527.00006, 750)
+scale = Vector2(0.5158333, 0.50166667)
+texture = ExtResource("3_gt3an")
+
+[node name="ClubsAce" type="Sprite2D" parent="PanelContainer" unique_id=56334955]
+position = Vector2(-514.17, -287.32904)
+rotation = 0.5038574
+scale = Vector2(0.8000393, 0.78438634)
+texture = ExtResource("4_swqht")
+
+[connection signal="pressed" from="PanelContainer/IsimGirisEkranı/HBoxContainer/KurConfirmButton" to="PanelContainer" method="_on_kur_confirm_button_pressed"]
+[connection signal="pressed" from="PanelContainer/IsimGirisEkranı/HBoxContainer/OdaIptalButton" to="PanelContainer" method="_on_oda_iptal_button_pressed"]

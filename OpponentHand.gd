@@ -1,4 +1,3 @@
-# OpponentHand.gd
 extends Node2D
 
 const CARD_SCENE_PATH = "res://Scenes/Card.tscn"
@@ -6,38 +5,53 @@ var cards_in_hand = []
 @export_enum("horizontal", "vertical") var hand_direction = "horizontal"
 @export_enum("Top", "Bottom", "Left", "Right") var hand_side = "Top"
 
-# OpponentHand.gd içine ekle
+
 
 @warning_ignore("unused_parameter")
 func connect_card_signals(card):
-	# Rakiplerin kartları için etkileşim gerekmiyorsa boş bırakıyoruz.
-	# Bu sayede Card.gd'deki hata düzelecektir.
 	pass
 
-# OpponentHand.gd
-
-# OpponentHand.gd içinde deal_hand fonksiyonunu şu şekilde güncelle:
 
 func deal_hand(card_names: Array, start_global_pos: Vector2):
+	# 1. Eski eli temizle
 	for card in cards_in_hand:
 		if is_instance_valid(card): card.queue_free()
 	cards_in_hand.clear()
 	
 	var card_scene = preload(CARD_SCENE_PATH)
-	for c_name in card_names:
-		var new_card = card_scene.instantiate()
+	
+	# 2. Gelen diziyi tek tek dön
+	for item in card_names:
+		if item == null: continue
 		
+		var new_card: Node2D
 		
-		new_card.card_id = c_name 
-		new_card.name = c_name
+		# --- MULTIPLAYER / SINGLEPLAYER AKILLI GEÇİŞ ---
+		if item is Node2D:
+			# Eğer multiplayer oynuyorsak: CardManager bize zaten üretilmiş NESNE yolladı
+			new_card = item
+			
+			# Kart rakipten geldiği için onun el düğümünün (OpponentHand) altına taşıyoruz (Reparent)
+			if new_card.get_parent():
+				new_card.get_parent().remove_child(new_card)
+			add_child(new_card)
+		else:
+			# Eğer singleplayer oynuyorsak: Bize sadece kartın adı String olarak geldi
+			new_card = card_scene.instantiate()
+			new_card.card_id = item
+			new_card.name = item
+			add_child(new_card) 
+		
+		# 3. Kartın multiplayer temel ayarları (Rakiplerin kartı kapalı durmalı)
 		new_card.is_draggable = false
-		new_card.is_face_up = false # Rakiplerin kartları kapalı başlar 
+		new_card.is_face_up = false 
+		new_card.setup_appearance()
 		
-		add_child(new_card) # _ready burada çalışır ve setup_appearance'ı çağırır
-		
+		# Kartı destenin başladığı ortak dünya koordinatına ışınla
 		new_card.global_position = start_global_pos
 		cards_in_hand.append(new_card)
 		
+	# 4. Yelpaze şeklinde dizilim animasyonunu tetikle
 	update_hand_positions()
 
 func update_hand_positions():
@@ -57,23 +71,22 @@ func update_hand_positions():
 		var fan_rotation = (i - (num_cards - 1) / 2.0) * angle_step
 		var fan_arc_offset = abs(i - (num_cards - 1) / 2.0) * arc_radius
 
-		# Masanın tarafına göre yönleri ayarlıyoruz
 		match hand_side:
 			"Top":
 				target_pos.x = offset
-				target_pos.y = -fan_arc_offset # Kenarları yukarı (-Y) çekerek aşağı kubbe yapar
-				target_rot = -fan_rotation     # Rotasyonu da ters çeviriyoruz
+				target_pos.y = -fan_arc_offset 
+				target_rot = -fan_rotation    
 			"Bottom":
 				target_pos.x = offset
-				target_pos.y = fan_arc_offset  # Kenarları aşağı (+Y) çekerek yukarı kubbe yapar
+				target_pos.y = fan_arc_offset  
 				target_rot = fan_rotation
 			"Right":
 				target_pos.y = offset
-				target_pos.x = fan_arc_offset  # Kenarları sağa (+X) çekerek sola kubbe yapar
+				target_pos.x = fan_arc_offset  
 				target_rot = 90 - fan_rotation
 			"Left":
 				target_pos.y = offset
-				target_pos.x = -fan_arc_offset # Kenarları sola (-X) çekerek sağa kubbe yapar
+				target_pos.x = -fan_arc_offset 
 				target_rot = -90 + fan_rotation
 
 		card.z_index = i 

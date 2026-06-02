@@ -1,0 +1,125 @@
+[gd_scene format=3 uid="uid://b83uqbsfuufx6"]
+
+[ext_resource type="Texture2D" uid="uid://p1r3e6b6nq40" path="res://9999520.jpg" id="1_8788b"]
+[ext_resource type="Script" uid="uid://cmt2s2e5m04ya" path="res://Scenes/OdaBul.gd" id="2_mamb4"]
+
+[node name="TextureRect" type="TextureRect" unique_id=548288332]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_8788b")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=694876392]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -736.0
+offset_top = -258.75
+offset_right = 736.0
+offset_bottom = 258.75
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_mamb4")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=2042668544]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1508626079]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1303544017]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Aktif Odalar"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=537898354]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=272166668]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="OdaBulIptalButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1745129718]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "Çıkış"
+
+[node name="KatilBeklemeEkrani" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1498767865]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/KatilBeklemeEkrani" unique_id=90062667]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Odaya Katınıldı, Diğer Oyuncular Bekleniyor..."
+horizontal_alignment = 1
+
+[node name="OyuncuSayisiLabel" type="Label" parent="PanelContainer/MarginContainer/KatilBeklemeEkrani" unique_id=1823573559]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Oyuncu Sayısı: "
+horizontal_alignment = 1
+
+[node name="NoktalarKutusu" type="HBoxContainer" parent="PanelContainer/MarginContainer/KatilBeklemeEkrani" unique_id=1084070362]
+layout_mode = 2
+alignment = 1
+
+[node name="nokta1" type="Label" parent="PanelContainer/MarginContainer/KatilBeklemeEkrani/NoktalarKutusu" unique_id=1550601528]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "."
+
+[node name="nokta2" type="Label" parent="PanelContainer/MarginContainer/KatilBeklemeEkrani/NoktalarKutusu" unique_id=327571220]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "."
+
+[node name="nokta3" type="Label" parent="PanelContainer/MarginContainer/KatilBeklemeEkrani/NoktalarKutusu" unique_id=2002796055]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "."
+
+[node name="KatilBeklemeIptalButton" type="Button" parent="PanelContainer/MarginContainer/KatilBeklemeEkrani" unique_id=1526260188]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "İPTAL"
+
+[node name="IsimGirisEkrani" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1665809596]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/IsimGirisEkrani" unique_id=2077278829]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Lobiye Katılmak İçin İsmini Gir:"
+
+[node name="OyuncuIsmiField" type="LineEdit" parent="PanelContainer/MarginContainer/IsimGirisEkrani" unique_id=862394144]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer/IsimGirisEkrani" unique_id=1805674562]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="KatilOnayButton" type="Button" parent="PanelContainer/MarginContainer/IsimGirisEkrani" unique_id=1396263633]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_font_sizes/font_size = 32
+text = "Bağlan"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/KatilBeklemeEkrani/KatilBeklemeIptalButton" to="PanelContainer" method="_on_katil_bekleme_iptal_button_pressed"]

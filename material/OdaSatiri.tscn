@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bi1kq27821qhw"]
+
+[node name="HBoxContainer" type="HBoxContainer" unique_id=301252211]
+offset_right = 904.0
+offset_bottom = 53.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 380
+alignment = 1
+
+[node name="OdaAdiLabel" type="Label" parent="." unique_id=1289806742]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+clip_text = true
+text_overrun_behavior = 5
+
+[node name="OyuncuSayisiLabel" type="Label" parent="." unique_id=1230545251]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "1 / 4"
+horizontal_alignment = 1
+
+[node name="KatilButton" type="Button" parent="." unique_id=1674685012]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 32
+text = "Katıl"

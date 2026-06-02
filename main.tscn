@@ -10,12 +10,27 @@
 [ext_resource type="PackedScene" uid="uid://bl4h4toami041" path="res://OpponentHand.tscn" id="8_5vw27"]
 [ext_resource type="Texture2D" uid="uid://dpxxlq5ndipx7" path="res://vecteezy_turkish-tea-illustration_38050393.png" id="9_kek77"]
 [ext_resource type="Script" uid="uid://c80hyxn4euvx6" path="res://MainChat.gd" id="10_efxa6"]
+[ext_resource type="Script" uid="uid://dviyrsnwxyvmu" path="res://player_1_spin.gd" id="10_w48qg"]
+[ext_resource type="Script" uid="uid://wftuyw8rm2b4" path="res://player_2_spin.gd" id="11_yaehf"]
 [ext_resource type="Script" uid="uid://b7p2k5q3jxcvc" path="res://Account.gd" id="11_ycdy4"]
+[ext_resource type="Script" uid="uid://hbdi303awdxu" path="res://player_3_spin.gd" id="12_074og"]
 [ext_resource type="Script" uid="uid://kcmfw7vbkw53" path="res://ScoreBoardManager.gd" id="12_dg77c"]
+[ext_resource type="Script" uid="uid://ck4xfpm2a10bj" path="res://player_4_spin.gd" id="13_cegan"]
 [ext_resource type="PackedScene" uid="uid://ba4gkbbbp3dbm" path="res://PausedMenu.tscn" id="13_ycdy4"]
+[ext_resource type="FontFile" uid="uid://dhu7q4d12s7k3" path="res://ArchitectsDaughter-Regular.ttf" id="17_074og"]
+[ext_resource type="AudioStream" uid="uid://ux3fotayb0lg" path="res://freesound_community-coffee-slurp-7-94517.mp3" id="19_cegan"]
+[ext_resource type="Script" uid="uid://dmmmqjasiiurj" path="res://GameOverScreen.gd" id="20_82xsv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
 size = Vector2(171, 262)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ycdy4"]
+bg_color = Color(0.6, 0.6, 0.6, 0.05490196)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_size = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kek77"]
 content_margin_left = 7.0
@@ -30,18 +45,58 @@ username = "Linbozo"
 description = "I like card games"
 metadata/_custom_type_script = "uid://b7p2k5q3jxcvc"
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_074og"]
+bg_color = Color(0.93333334, 0.93333334, 0.89411765, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cegan"]
+bg_color = Color(0.93333334, 0.93333334, 0.89411765, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82xsv"]
+bg_color = Color(0.93333334, 0.93333334, 0.89411765, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_074og"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yaehf"]
+bg_color = Color(0.93333334, 0.93333334, 0.89411765, 1)
+
 [node name="Main" type="Node2D" unique_id=756828249]
 position = Vector2(2, 25)
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1255483684]
 z_index = -2
-offset_top = -31.0
-offset_right = 3000.0
-offset_bottom = 1969.0
+offset_left = 3.0
+offset_top = -25.0
+offset_right = 3003.0
+offset_bottom = 1975.0
 texture = ExtResource("1_272bh")
 
-[node name="CardManager" type="Node2D" parent="." unique_id=1479037975]
+[node name="CardManager" type="Node2D" parent="." unique_id=1479037975 node_paths=PackedStringArray("koltuk_isim_etiketleri")]
 script = ExtResource("1_0xm2m")
+koltuk_isim_etiketleri = [NodePath("../Player1"), NodePath("../Player2"), NodePath("../Player3")]
 
 [node name="CardSlot" parent="." unique_id=980458350 instance=ExtResource("3_h2yge")]
 z_index = -1
@@ -78,7 +133,7 @@ collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deck/Area2D" unique_id=1862571956]
-position = Vector2(2, 2)
+position = Vector2(5, 2)
 shape = SubResource("RectangleShape2D_h2yge")
 
 [node name="InputManager" type="Node2D" parent="." unique_id=1799585418]
@@ -90,26 +145,70 @@ position = Vector2(300, 916)
 hand_direction = "vertical"
 hand_side = "Left"
 
+[node name="VBoxContainer" type="VBoxContainer" parent="OpponentHand1" unique_id=1661376897]
+offset_left = 193.0
+offset_top = -40.0
+offset_right = 348.0
+offset_bottom = 54.0
+
+[node name="TargetLabel" type="Label" parent="OpponentHand1/VBoxContainer" unique_id=1832370483]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "HEDEF: 0"
+
+[node name="CurrentLabel" type="Label" parent="OpponentHand1/VBoxContainer" unique_id=1852960021]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "ALINAN: 0"
+
 [node name="OpponentHand2" parent="." unique_id=1303253121 instance=ExtResource("8_5vw27")]
 position = Vector2(1500, 182)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OpponentHand2" unique_id=716187747]
+offset_left = -147.0
+offset_top = 159.0
+offset_right = 148.0
+offset_bottom = 204.0
+
+[node name="TargetLabel" type="Label" parent="OpponentHand2/HBoxContainer" unique_id=1109698286]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "HEDEF: 0"
+
+[node name="CurrentLabel" type="Label" parent="OpponentHand2/HBoxContainer" unique_id=179798291]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "ALINAN: 0"
 
 [node name="OpponentHand3" parent="." unique_id=550644154 instance=ExtResource("8_5vw27")]
 position = Vector2(2600, 916)
 hand_direction = "vertical"
 hand_side = "Right"
 
-[node name="VecteezyTurkishTeaIllustration38050393" type="Sprite2D" parent="." unique_id=961852985]
-position = Vector2(4048.0002, 1316)
-scale = Vector2(0.07908537, 0.09714148)
-texture = ExtResource("9_kek77")
+[node name="VBoxContainer" type="VBoxContainer" parent="OpponentHand3" unique_id=943336510]
+offset_left = -320.0
+offset_top = -40.0
+offset_right = -165.0
+offset_bottom = 54.0
+
+[node name="TargetLabel" type="Label" parent="OpponentHand3/VBoxContainer" unique_id=627142041]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "HEDEF: 0"
+
+[node name="CurrentLabel" type="Label" parent="OpponentHand3/VBoxContainer" unique_id=2034986687]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "ALINAN: 0"
 
 [node name="BiddingPanel" type="PanelContainer" parent="." unique_id=3984626]
 process_mode = 1
 visible = false
-offset_left = 1103.0
+offset_left = 1050.0
 offset_top = 309.0
-offset_right = 1901.0
-offset_bottom = 582.0
+offset_right = 1855.0
+offset_bottom = 589.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ycdy4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BiddingPanel" unique_id=1446712517]
 layout_mode = 2
@@ -125,7 +224,7 @@ vertical_alignment = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="BiddingPanel/VBoxContainer" unique_id=747251800]
 layout_mode = 2
-theme_override_constants/separation = 112
+theme_override_constants/separation = 115
 
 [node name="VBoxContainer1" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1602052413]
 layout_mode = 2
@@ -136,8 +235,9 @@ theme_override_font_sizes/font_size = 31
 text = "Player 1"
 
 [node name="Player1Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer1" unique_id=1389576529]
-custom_minimum_size = Vector2(100, 50)
+custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
+script = ExtResource("10_w48qg")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=852900605]
 layout_mode = 2
@@ -148,8 +248,9 @@ theme_override_font_sizes/font_size = 31
 text = "Player 2"
 
 [node name="Player2Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1687675202]
-custom_minimum_size = Vector2(100, 50)
+custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
+script = ExtResource("11_yaehf")
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1639258586]
 layout_mode = 2
@@ -160,8 +261,9 @@ theme_override_font_sizes/font_size = 31
 text = "Player 3"
 
 [node name="Player3Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer3" unique_id=566060995]
-custom_minimum_size = Vector2(100, 50)
+custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
+script = ExtResource("12_074og")
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1031952260]
 layout_mode = 2
@@ -172,8 +274,9 @@ theme_override_font_sizes/font_size = 31
 text = " Siz"
 
 [node name="Player4Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer4" unique_id=1800413008]
-custom_minimum_size = Vector2(100, 50)
+custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
+script = ExtResource("13_cegan")
 
 [node name="ConfirmButton" type="Button" parent="BiddingPanel/VBoxContainer" unique_id=751675257]
 layout_mode = 2
@@ -215,17 +318,14 @@ theme_override_font_sizes/font_size = 30
 layer = 8
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=2023641840]
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -287.0
-offset_top = -187.0
-offset_right = -122.0
-offset_bottom = -80.0
+offset_left = -370.0
+offset_top = 25.0
+offset_right = -186.0
+offset_bottom = 142.0
 grow_horizontal = 0
-grow_vertical = 0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 
@@ -243,6 +343,7 @@ offset_bottom = 502.0
 theme_override_font_sizes/font_size = 72
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1316880077]
+layer = 8
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer2" unique_id=1037805208]
 offset_left = 2149.0
@@ -252,65 +353,89 @@ offset_bottom = 78.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/MarginContainer" unique_id=511167019]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="ScoreBoardToggle" type="Button" parent="CanvasLayer2/MarginContainer/VBoxContainer" unique_id=862390669]
+custom_minimum_size = Vector2(250, 90)
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Skor Tablosu"
+theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_focus_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_hover_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_fonts/font = ExtResource("17_074og")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_074og")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cegan")
+theme_override_styles/hover = SubResource("StyleBoxFlat_82xsv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_074og")
+text = "YAZBOZ"
 
-[node name="ScoreBoardPanel" type="PanelContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer" unique_id=1529600513 node_paths=PackedStringArray("score_grid", "scroll_container")]
+[node name="ScoreBoardPanel" type="PanelContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer" unique_id=1529600513 node_paths=PackedStringArray("score_grid", "scroll_container", "header_labels")]
 visible = false
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yaehf")
 script = ExtResource("12_dg77c")
 score_grid = NodePath("VBoxContainer/ScrollContainer/ScoreGrid")
 scroll_container = NodePath("VBoxContainer/ScrollContainer")
+header_labels = [NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P1"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P2"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P3"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/Siz")]
+
+[node name="Cizgiler" type="Control" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel" unique_id=1030387658]
+layout_mode = 2
+
+[node name="Cizgi1" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=868387246]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -231.5
+offset_right = -229.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Cizgi2" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=1617331799]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -82.5
+offset_right = -80.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Cizgi3" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=37018902]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 70.5
+offset_right = 72.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Cizgi4" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=860551102]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 227.5
+offset_right = 227.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel" unique_id=926087271]
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Skor Tablosu" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=1254237222]
-layout_mode = 2
-
-[node name="HeaderGrid" type="GridContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=654418348]
-layout_mode = 2
-theme_override_constants/h_separation = 30
-theme_override_constants/v_separation = 10
-columns = 4
-
-[node name="P1" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=1954273389]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
-text = "Player 1"
-horizontal_alignment = 1
-
-[node name="P2" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=1481098948]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
-text = "Player 2"
-horizontal_alignment = 1
-
-[node name="P3" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=1051636438]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
-text = "Player 3"
-horizontal_alignment = 1
-
-[node name="Siz" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/HeaderGrid" unique_id=969880127]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
-text = "Siz"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=796225619]
 layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer" unique_id=1131663523]
@@ -323,15 +448,68 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 30
-theme_override_constants/v_separation = 10
-columns = 4
+theme_override_constants/v_separation = 1
+columns = 5
 
-[node name="CanvasLayer3" type="CanvasLayer" parent="." unique_id=1669493112]
+[node name="RoundLabel" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=655647933]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("17_074og")
+theme_override_font_sizes/font_size = 32
+text = "R"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
 
-[node name="PausedMenu" parent="CanvasLayer3" unique_id=1386088285 instance=ExtResource("13_ycdy4")]
-offset_top = 14.0
-offset_right = 130.0
-offset_bottom = 14.0
+[node name="P1" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=1954273389]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("17_074og")
+theme_override_font_sizes/font_size = 32
+text = "Player 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=1481098948]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("17_074og")
+theme_override_font_sizes/font_size = 32
+text = "Player 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P3" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=1051636438]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("17_074og")
+theme_override_font_sizes/font_size = 32
+text = "Player 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Siz" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=969880127]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("17_074og")
+theme_override_font_sizes/font_size = 32
+text = "Siz"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Player1" type="Label" parent="." unique_id=1319939725]
 offset_left = 1202.0
@@ -340,6 +518,7 @@ offset_right = 1326.0
 offset_bottom = 772.0
 theme_override_font_sizes/font_size = 32
 text = "Player 1"
+horizontal_alignment = 1
 
 [node name="Player2" type="Label" parent="." unique_id=557370383]
 offset_left = 1438.0
@@ -348,6 +527,7 @@ offset_right = 1562.0
 offset_bottom = 631.0
 theme_override_font_sizes/font_size = 32
 text = "Player 2"
+horizontal_alignment = 1
 
 [node name="Player3" type="Label" parent="." unique_id=1286026265]
 offset_left = 1663.0
@@ -356,7 +536,83 @@ offset_right = 1787.0
 offset_bottom = 774.0
 theme_override_font_sizes/font_size = 32
 text = "Player 3"
+horizontal_alignment = 1
+
+[node name="CanvasLayer4" type="CanvasLayer" parent="." unique_id=1154420118]
+layer = 5
+
+[node name="RoundLabel" type="Label" parent="CanvasLayer4" unique_id=1904869288]
+offset_left = 2526.0
+offset_top = 168.0
+offset_right = 2740.0
+offset_bottom = 215.0
+theme_override_font_sizes/font_size = 34
+text = "Round: 1 / 19"
+
+[node name="Cay" type="TextureButton" parent="." unique_id=465312848]
+offset_left = 2425.0
+offset_top = 1440.0
+offset_right = 5858.0
+offset_bottom = 4578.0
+scale = Vector2(0.08, 0.08)
+texture_normal = ExtResource("9_kek77")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Cay" unique_id=1299961184]
+stream = ExtResource("19_cegan")
+
+[node name="CanvasLayer3" type="CanvasLayer" parent="." unique_id=1669493112]
+layer = 9
+
+[node name="PausedMenu" parent="CanvasLayer3" unique_id=1386088285 instance=ExtResource("13_ycdy4")]
+visible = false
+visibility_layer = 2
+offset_top = 14.0
+offset_right = 130.0
+offset_bottom = 14.0
+
+[node name="GameOverScreen" type="CanvasLayer" parent="." unique_id=208433406]
+script = ExtResource("20_82xsv")
+
+[node name="Background" type="ColorRect" parent="GameOverScreen" unique_id=21658828]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CenterContainer" type="CenterContainer" parent="GameOverScreen/Background" unique_id=380047882]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MainVBox" type="VBoxContainer" parent="GameOverScreen/Background/CenterContainer" unique_id=1224353632]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1531292647]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "OYUN BİTTİ!"
+
+[node name="AvgLabel" type="Label" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1676697672]
+layout_mode = 2
+
+[node name="ResultsContainer" type="VBoxContainer" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1718946969]
+layout_mode = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1110550883]
+layout_mode = 2
+
+[node name="MainMenuBtn" type="Button" parent="GameOverScreen/Background/CenterContainer/MainVBox/ButtonsContainer" unique_id=48776009]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Ana Menüye Dön"
+
+[node name="NewGameBtn" type="Button" parent="GameOverScreen/Background/CenterContainer/MainVBox/ButtonsContainer" unique_id=574960910]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Yeni Oyun"
 
 [connection signal="pressed" from="BiddingPanel/VBoxContainer/ConfirmButton" to="CardManager" method="_on_confirm_button_pressed"]
 [connection signal="text_submitted" from="MainChat/MarginContainer/VBoxContainer/SendMessage" to="MainChat" method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardToggle" to="CardManager" method="_on_score_board_toggle_pressed"]
+[connection signal="pressed" from="Cay" to="CardManager" method="_on_cay_pressed"]
+[connection signal="pressed" from="GameOverScreen/Background/CenterContainer/MainVBox/ButtonsContainer/MainMenuBtn" to="CardManager" method="_on_main_menu_btn_pressed"]
+[connection signal="pressed" from="GameOverScreen/Background/CenterContainer/MainVBox/ButtonsContainer/MainMenuBtn" to="GameOverScreen" method="_on_main_menu_btn_pressed"]
+[connection signal="pressed" from="GameOverScreen/Background/CenterContainer/MainVBox/ButtonsContainer/NewGameBtn" to="GameOverScreen" method="_on_new_game_btn_pressed"]

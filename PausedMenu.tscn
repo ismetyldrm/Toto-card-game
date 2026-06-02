@@ -1,17 +1,69 @@
 [gd_scene format=3 uid="uid://ba4gkbbbp3dbm"]
 
 [ext_resource type="Script" uid="uid://0tp240u44qp4" path="res://PausedMenu.gd" id="1_4g16n"]
+[ext_resource type="Material" uid="uid://c8kqwstb2u83e" path="res://material/blur.tres" id="2_ox2jm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4g16n"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s4gpc"]
+bg_color = Color(0.63529414, 0.63529414, 0.63529414, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yyr41"]
+bg_color = Color(0.8235294, 0.8235294, 0.8235294, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ox2jm"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tnlkf"]
+bg_color = Color(0.63529414, 0.63529414, 0.63529414, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_guenh"]
+bg_color = Color(0.8235294, 0.8235294, 0.8235294, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [node name="PausedMenu" type="Control" unique_id=1386088285]
 process_mode = 3
-visible = false
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4g16n")
+
+[node name="Blur" type="ColorRect" parent="." unique_id=800762363]
+material = ExtResource("2_ox2jm")
+layout_mode = 0
+offset_left = -1558.0
+offset_top = -1145.0
+offset_right = 1963.0
+offset_bottom = 1033.0
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1209673811]
 layout_mode = 1
@@ -29,36 +81,46 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -66.0
-offset_top = -114.0
-offset_right = 66.0
-offset_bottom = 114.0
+offset_left = -157.0
+offset_top = -68.0
+offset_right = 93.0
+offset_bottom = 181.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.2, 1.2)
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 8
 
 [node name="Label" type="Label" parent="GridContainer" unique_id=385927661]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.04755766, 0.047557645, 0.047557645, 1)
 theme_override_font_sizes/font_size = 32
-text = "Paused"
+text = "Duraklatıldı"
 horizontal_alignment = 1
 
 [node name="ResumeButton" type="Button" parent="GridContainer" unique_id=1212463560]
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
-text = "Resume"
+theme_override_styles/normal = SubResource("StyleBoxFlat_4g16n")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_s4gpc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yyr41")
+text = "Devam Et"
 
 [node name="QuitButton" type="Button" parent="GridContainer" unique_id=1214239677]
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
-text = "Quit"
-
-[node name="SettingsButton" type="Button" parent="GridContainer" unique_id=1507742283]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Settings"
+theme_override_styles/normal = SubResource("StyleBoxFlat_ox2jm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tnlkf")
+theme_override_styles/hover = SubResource("StyleBoxFlat_guenh")
+text = "Çık"
 
 [connection signal="pressed" from="GridContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="GridContainer/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="GridContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

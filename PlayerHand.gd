@@ -12,26 +12,45 @@ func _ready() -> void:
 	pass
 
 
-func deal_new_hand(card_names: Array, start_global_pos: Vector2): # Parametre eklendi
+
+func deal_new_hand(cards_input: Array, start_global_pos: Vector2):
+	# 1. Eski eli temizle
 	for card in player_hand:
 		if is_instance_valid(card):
 			card.name = "deleted"
 			card.queue_free()
 	player_hand.clear()
+	
 	var card_scene = preload(CARD_SCENE_PATH)
-	for card_name in card_names:
-		if card_name != null:
-			var new_card = card_scene.instantiate()
-			new_card.card_id = card_name
-			# KRİTİK NOKTA 0'ı çözer: Kartın isminiadd_child'dan ÖNCE ata
-			new_card.name = card_name
-			
+	
+	# 2. Gelen diziyi tek tek kontrol et
+	for item in cards_input:
+		if item == null: continue
+		
+		var new_card: Node2D
+		
+		# --- KRİTİK MULTIPLAYER / SINGLEPLAYER GÜVENCESİ ---
+		if item is Node2D:
+			# Eğer CardManager bize zaten instantiate edilmiş HAZIR KART nesnesi yolladıysa (Multiplayer):
+			new_card = item
+		else:
+			# Eğer bize sadece kartın ismi String olarak geldiyse (Singleplayer):
+			new_card = card_scene.instantiate()
+			new_card.card_id = item
+			new_card.name = item
+			# Singleplayer'da kart CardManager'a otomatik eklenmediği için burada ekliyoruz:
 			get_node("../CardManager").add_child(new_card)
-			new_card.setup_appearance()
-			# Kartı desteden başlat (Dünya koordinatları)
-			new_card.global_position = start_global_pos
 			
-			add_card_to_hand(new_card)
+		# 3. Görünümünü ve ortak koordinatlarını ayarla
+		new_card.setup_appearance()
+		new_card.global_position = start_global_pos
+		
+		# 4. El hafızamıza ekle
+		if new_card not in player_hand:
+			player_hand.insert(0, new_card)
+
+	# Tüm kartlar dizildikten sonra pozisyonları pürüzsüzce güncelle
+	update_hand_positions()
 
 func add_card_to_hand(card):
 	if card not in player_hand:
@@ -97,7 +116,7 @@ func calculate_card_position(index):
 
 func animate_card_to_position(card, new_position):
 	var tween = get_tree().create_tween()
-	tween.tween_property(card, "position", new_position, 0.1)
+	tween.tween_property(card, "global_position", new_position, 0.1)
 
 func remove_card_from_hand(card):
 	if card in player_hand:
