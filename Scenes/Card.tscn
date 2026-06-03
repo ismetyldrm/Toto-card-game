@@ -10,8 +10,8 @@ position = Vector2(300, 1600)
 script = ExtResource("1_3p273")
 
 [node name="CardImage" type="Sprite2D" parent="." unique_id=2035328200]
-position = Vector2(-0.9998779, 0.9999695)
-scale = Vector2(0.45454547, 0.484375)
+position = Vector2(-1.9999998, 2.9999695)
+scale = Vector2(0.455, 0.484)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=662860650]
 

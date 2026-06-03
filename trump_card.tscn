@@ -34,6 +34,7 @@ color = Color(0.92156863, 0.9411765, 0.9647059, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="NoNumberDiamonds02" type="Sprite2D" parent="." unique_id=1660826959]
+scale = Vector2(0.481, 0.507)
 texture = ExtResource("2_g17bw")
 
 [node name="ColorRect3" type="ColorRect" parent="NoNumberDiamonds02" unique_id=1633764904]

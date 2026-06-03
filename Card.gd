@@ -41,7 +41,7 @@ func setup_appearance():
 		$CardImage.texture = load(texture_path)
 	else:
 		push_error("HATA: Kart resmi bulunamadı! Yol: " + texture_path)
-
+	
 
 
 func _on_area_2d_mouse_entered() -> void:

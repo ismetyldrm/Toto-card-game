@@ -510,7 +510,11 @@ func next_round():
 	current_round += 1
 	lead_suit = ""
 	tricks_won = [0, 0, 0, 0]
-	start_new_round()
+	
+	if current_round > TOTAL_ROUNDS:
+		show_game_over_screen()
+	else:
+		start_new_round()
 	
 	
 func finish_drag():
@@ -1467,6 +1471,10 @@ func _mp_oyun_bitti():
 	result_label.add_theme_color_override("font_color", Color.WHITE)
 	result_label.scale = Vector2(1, 1)
 	result_label.show()
+	
+	await get_tree().create_timer(2.0).timeout
+	result_label.hide()
+	show_game_over_screen()
 
 func _mp_alinan_goster(seat: int):
 	if seat == local_koltuk_no:
@@ -1493,17 +1501,25 @@ func show_game_over_screen():
 	var game_over_screen = get_node("../GameOverScreen") 
 	
 	# Puanları Scoreboard'dan Çek
-	var scores = scoreboard_manager.total_scores 
-	var isimler = ["Player 1", "Player 2", "Player 3", "Siz"]
+	var raw_scores = scoreboard_manager.total_scores 
 	var is_mp = (NetworkManager.game_mode == NetworkManager.GameMode.MULTIPLAYER)
 	
-	if is_mp:
-		isimler = [
-			NetworkManager.koltuk_isimleri.get(0, "Oyuncu 1"),
-			NetworkManager.koltuk_isimleri.get(1, "Oyuncu 2"),
-			NetworkManager.koltuk_isimleri.get(2, "Oyuncu 3"),
-			NetworkManager.koltuk_isimleri.get(3, "Oyuncu 4")
-		]
+	var scores = []
+	var isimler = []
+	
+	# KRİTİK DÜZELTME: Yazboz tablosundaki sırayı (ui_order) referans alıyoruz
+	for i in scoreboard_manager.ui_order:
+		# Puanı doğru kişiye eşle
+		scores.append(raw_scores[i])
+		
+		# İsmi doğru kişiye eşle
+		if is_mp:
+			isimler.append(NetworkManager.koltuk_isimleri.get(i, "Oyuncu"))
+		else:
+			if i == 0:
+				isimler.append("Siz")
+			else:
+				isimler.append("Player " + str(i))
 
-	# Düğümün içindeki fonksiyona verileri gönder, o kendi kendini görünür yapacak
+	# Düğümün içindeki fonksiyona hatasız eşlenmiş verileri gönder
 	game_over_screen.setup_results(scores, isimler, is_mp)

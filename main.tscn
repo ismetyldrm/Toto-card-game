@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://ck4xfpm2a10bj" path="res://player_4_spin.gd" id="13_cegan"]
 [ext_resource type="PackedScene" uid="uid://ba4gkbbbp3dbm" path="res://PausedMenu.tscn" id="13_ycdy4"]
 [ext_resource type="FontFile" uid="uid://dhu7q4d12s7k3" path="res://ArchitectsDaughter-Regular.ttf" id="17_074og"]
+[ext_resource type="Script" uid="uid://bpo5n08fjv3uy" path="res://SutunCizgiler.gd" id="17_getpj"]
 [ext_resource type="AudioStream" uid="uid://ux3fotayb0lg" path="res://freesound_community-coffee-slurp-7-94517.mp3" id="19_cegan"]
 [ext_resource type="Script" uid="uid://dmmmqjasiiurj" path="res://GameOverScreen.gd" id="20_82xsv"]
 
@@ -82,6 +83,14 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yaehf"]
 bg_color = Color(0.93333334, 0.93333334, 0.89411765, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_getpj"]
+bg_color = Color(0.93333334, 0.93333334, 0.89411765, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 13
 
 [node name="Main" type="Node2D" unique_id=756828249]
 position = Vector2(2, 25)
@@ -336,10 +345,10 @@ text = "HEDEF: 0
 ALINAN: 0"
 
 [node name="ResultLabel" type="Label" parent="CanvasLayer" unique_id=25820664]
-offset_left = 1387.0
+offset_left = 1370.0
 offset_top = 416.0
-offset_right = 1623.0
-offset_bottom = 502.0
+offset_right = 1606.0
+offset_bottom = 515.0
 theme_override_font_sizes/font_size = 72
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1316880077]
@@ -379,57 +388,11 @@ score_grid = NodePath("VBoxContainer/ScrollContainer/ScoreGrid")
 scroll_container = NodePath("VBoxContainer/ScrollContainer")
 header_labels = [NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P1"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P2"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P3"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/Siz")]
 
-[node name="Cizgiler" type="Control" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel" unique_id=1030387658]
+[node name="SutunCizgileri" type="Control" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel" unique_id=818814260 node_paths=PackedStringArray("score_grid", "scroll_container")]
 layout_mode = 2
-
-[node name="Cizgi1" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=868387246]
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -231.5
-offset_right = -229.5
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Cizgi2" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=1617331799]
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -82.5
-offset_right = -80.5
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Cizgi3" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=37018902]
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 70.5
-offset_right = 72.5
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Cizgi4" type="ColorRect" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/Cizgiler" unique_id=860551102]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 227.5
-offset_right = 227.5
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
+script = ExtResource("17_getpj")
+score_grid = NodePath("../VBoxContainer/ScrollContainer/ScoreGrid")
+scroll_container = NodePath("../VBoxContainer/ScrollContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel" unique_id=926087271]
 layout_mode = 2
@@ -443,6 +406,7 @@ custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
 
 [node name="ScoreGrid" type="GridContainer" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer" unique_id=1671011866]
 layout_mode = 2
@@ -454,6 +418,7 @@ columns = 5
 [node name="RoundLabel" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=655647933]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("17_074og")
@@ -464,7 +429,7 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="P1" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=1954273389]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
@@ -476,7 +441,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="P2" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=1481098948]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
@@ -488,7 +453,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="P3" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=1051636438]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
@@ -500,7 +465,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Siz" type="Label" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel/VBoxContainer/ScrollContainer/ScoreGrid" unique_id=969880127]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
@@ -573,31 +538,39 @@ offset_bottom = 14.0
 [node name="GameOverScreen" type="CanvasLayer" parent="." unique_id=208433406]
 script = ExtResource("20_82xsv")
 
-[node name="Background" type="ColorRect" parent="GameOverScreen" unique_id=21658828]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Background" type="PanelContainer" parent="GameOverScreen" unique_id=1687891854]
+offset_left = 1125.0
+offset_top = 622.0
+offset_right = 1891.0
+offset_bottom = 1224.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_getpj")
 
 [node name="CenterContainer" type="CenterContainer" parent="GameOverScreen/Background" unique_id=380047882]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 2
 
 [node name="MainVBox" type="VBoxContainer" parent="GameOverScreen/Background/CenterContainer" unique_id=1224353632]
 layout_mode = 2
+theme_override_constants/separation = 28
 
 [node name="TitleLabel" type="Label" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1531292647]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "OYUN BİTTİ!"
+horizontal_alignment = 1
 
 [node name="AvgLabel" type="Label" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1676697672]
 layout_mode = 2
 
 [node name="ResultsContainer" type="VBoxContainer" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1718946969]
 layout_mode = 2
+size_flags_horizontal = 0
+alignment = 1
 
-[node name="ButtonsContainer" type="HBoxContainer" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1110550883]
+[node name="ButtonsContainer" type="VBoxContainer" parent="GameOverScreen/Background/CenterContainer/MainVBox" unique_id=1490364936]
 layout_mode = 2
+theme_override_constants/separation = 7
+alignment = 1
 
 [node name="MainMenuBtn" type="Button" parent="GameOverScreen/Background/CenterContainer/MainVBox/ButtonsContainer" unique_id=48776009]
 layout_mode = 2

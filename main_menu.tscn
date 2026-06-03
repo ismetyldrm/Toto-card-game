@@ -3,18 +3,17 @@
 [ext_resource type="Script" uid="uid://6cbxqqwwyhfl" path="res://main_menu.gd" id="1_fu7sn"]
 [ext_resource type="FontFile" uid="uid://djv107m6x8mx2" path="res://Hackensack-SemiBold.otf" id="2_7vrkn"]
 [ext_resource type="Texture2D" uid="uid://clrl1503mpqcg" path="res://2786.jpg" id="2_fu7sn"]
+[ext_resource type="AudioStream" uid="uid://bbcvllfc24bs" path="res://toucanmusic-casino-399821.mp3" id="4_jix8l"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7vrkn"]
 texture = ExtResource("2_fu7sn")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhts7"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glbon"]
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
-shadow_size = 5
-shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vrkn"]
 bg_color = Color(0.63529414, 0.63529414, 0.63529414, 1)
@@ -36,12 +35,17 @@ shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jix8l"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glbon"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhts7"]
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jix8l"]
+bg_color = Color(0, 0, 0, 0.74509805)
 
 [node name="MainMenu" type="Control" unique_id=156548557]
 layout_mode = 3
@@ -79,6 +83,21 @@ offset_bottom = -692.4801
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 16
+
+[node name="Button6" type="Button" parent="VBoxContainer" unique_id=855222674]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_7vrkn")
+theme_override_font_sizes/font_size = 47
+theme_override_styles/normal = SubResource("StyleBoxFlat_glbon")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7vrkn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fu7sn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_jix8l")
+text = "Nasıl Oynanır?"
 
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=2025262449]
 layout_mode = 2
@@ -162,7 +181,88 @@ text = "TOTO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="BGM" type="AudioStreamPlayer" parent="." unique_id=135898130]
+stream = ExtResource("4_jix8l")
+autoplay = true
+
+[node name="TutorialPanel" type="Panel" parent="." unique_id=243464607]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jix8l")
+
+[node name="RulesText" type="RichTextLabel" parent="TutorialPanel" unique_id=1646750507]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -790.5
+offset_top = -694.5
+offset_right = 790.5
+offset_bottom = 694.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 48
+theme_override_font_sizes/bold_font_size = 48
+
+[node name="PageLabel" type="Label" parent="TutorialPanel/RulesText" unique_id=578880160]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -27.5
+offset_top = -50.0
+offset_right = 27.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 36
+text = "1/5"
+
+[node name="BtnIleri" type="Button" parent="TutorialPanel/RulesText" unique_id=676683780]
+layout_mode = 0
+offset_left = 1366.0
+offset_top = 1327.0
+offset_right = 1474.0
+offset_bottom = 1385.0
+theme_override_font_sizes/font_size = 36
+text = "İleri->"
+
+[node name="BtnGeri" type="Button" parent="TutorialPanel/RulesText" unique_id=1332776522]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -58.0
+offset_right = 113.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 36
+text = "<-Geri"
+
+[node name="BtnKapat" type="Button" parent="TutorialPanel/RulesText" unique_id=951179592]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -136.0
+offset_top = 37.0
+offset_right = -27.0
+offset_bottom = 95.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 36
+text = "Kapat"
+
+[connection signal="pressed" from="VBoxContainer/Button6" to="." method="_on_button_6_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_hizli_oyun_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_oda_ara_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_oda_aç_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button4" to="." method="_on_cikis_pressed"]
+[connection signal="pressed" from="TutorialPanel/RulesText/BtnIleri" to="." method="_on_btn_ileri_pressed"]
+[connection signal="pressed" from="TutorialPanel/RulesText/BtnGeri" to="." method="_on_btn_geri_pressed"]
+[connection signal="pressed" from="TutorialPanel/RulesText/BtnKapat" to="." method="_on_btn_kapat_pressed"]
