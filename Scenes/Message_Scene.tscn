@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c3dsu7y8p2hyw"]
 
-[ext_resource type="Script" uid="uid://b5pvtx8gpohfu" path="res://Scenes/MessageData.gd" id="1_kd151"]
+[ext_resource type="Script" uid="uid://b5pvtx8gpohfu" path="res://Scripts/MessageData.gd" id="1_kd151"]
 
 [node name="Message" type="HBoxContainer" unique_id=1124224772]
 offset_right = 40.0

@@ -2,7 +2,7 @@ extends Node
 
 const DEFAULT_PORT = 12345
 const MAX_PLAYERS = 4
-const GAME_SCENE = "res://main.tscn"
+const GAME_SCENE = "res://Scenes/main.tscn"
 
 # --- UDP Keşif Protokolü Sabitleri ---
 const BROADCAST_PORT = 12346 # Odaları aramak için kullanılacak bağımsız port
@@ -112,7 +112,7 @@ func return_to_main_menu():
 	_returning_to_menu = true
 
 	leave_room()  # UDP + ağ soketini temizler
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
 
 	await get_tree().process_frame
 	_returning_to_menu = false
@@ -192,9 +192,6 @@ func _stop_udp():
 		udp_client.close()
 
 func join_room(ip_address: String, port: int = DEFAULT_PORT) -> bool:
-	# --- KRİTİK DÜZELTME ---
-	# stop_searching_rooms() satırını buradan SİLİYORUZ! 
-	# Soketi hemen kapatmıyoruz ki el sıkışma paketleri ağdan pürüzsüz geçsin.
 	
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(ip_address, port)

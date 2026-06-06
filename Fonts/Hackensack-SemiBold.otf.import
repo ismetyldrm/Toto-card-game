@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://djv107m6x8mx2"
-path="res://.godot/imported/Hackensack-SemiBold.otf-09e08d1701b6be09a520a548f95413fa.fontdata"
+path="res://.godot/imported/Hackensack-SemiBold.otf-074041ece07898037353bd5c0f3b7f34.fontdata"
 
 [deps]
 
-source_file="res://Hackensack-SemiBold.otf"
-dest_files=["res://.godot/imported/Hackensack-SemiBold.otf-09e08d1701b6be09a520a548f95413fa.fontdata"]
+source_file="res://Fonts/Hackensack-SemiBold.otf"
+dest_files=["res://.godot/imported/Hackensack-SemiBold.otf-074041ece07898037353bd5c0f3b7f34.fontdata"]
 
 [params]
 

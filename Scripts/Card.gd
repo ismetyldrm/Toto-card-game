@@ -12,6 +12,9 @@ var suit: String = ""
 var value: int = 0
 
 func _ready() -> void:
+	if has_node("ShadowImage"):
+		$ShadowImage.visible = false
+	
 	if get_parent().has_method("connect_card_signals"):
 		get_parent().connect_card_signals(self)
 
@@ -40,7 +43,17 @@ func setup_appearance():
 	if FileAccess.file_exists(texture_path):
 		$CardImage.texture = load(texture_path)
 	else:
-		push_error("HATA: Kart resmi bulunamadı! Yol: " + texture_path)
+		push_error("Kart resmi bulunamadı Yol: " + texture_path)
+		
+	if has_node("ShadowImage") and $CardImage.texture:
+		# 1. Asıl kart resminin aynısını gölgeye de ata
+		$ShadowImage.texture = $CardImage.texture
+		$ShadowImage.scale = $CardImage.scale
+		
+		# 2. SİHİRLİ DOKUNUŞ: Resmi tamamen siyaha/koyu griye boya ve yarı saydam yap
+		$ShadowImage.modulate = Color(0.0, 0.0, 0.0, 0.4) # Siyah ve %40 opaklık
+		
+		
 	
 
 

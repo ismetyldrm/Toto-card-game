@@ -5,6 +5,7 @@ const COLLISON_MASK_CARD_SLOT = 2
 
 var current_turn = 0 
 var is_bot_playing = false
+var hovered_card = null
 
 var player_bids = [0, 0, 0, 0] # Her raunt başında alınan tahminler
 var tricks_won = [0, 0, 0, 0]  # O raunt içinde kazanılan el sayısı
@@ -21,7 +22,7 @@ var mp_alinan = [0,0,0,0] # MP koltuk başına kazanılan el
 
 var current_round = 1
 const MAX_CARDS_PER_ROUND = 13
-const TOTAL_ROUNDS = 2
+const TOTAL_ROUNDS = 20
 
 var koz_kart_nesnesi = null
 const KOZ_POSITION = Vector2(300,1600)
@@ -73,6 +74,7 @@ var sunucu_eller = {}       # host: kalan eller { koltuk: [kart_id,...] }
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	player_hand_referance = $"../PlayerHand"
+	
 
 	if NetworkManager.game_mode == NetworkManager.GameMode.SINGLEPLAYER:
 		start_new_round()   # ←—— MEVCUT TEK KİŞİLİK AKIŞ, HİÇ DEĞİŞMEDİ
@@ -94,16 +96,13 @@ func start_new_round():
 	koz_kart_nesnesi = null 
 	current_trump_suit = "" 
 
-	# 2. DESTE VE KOORDİNAT HAZIRLIĞI
 	var deck_node = get_node("../Deck")
 	deck_node.create_deck() 
 	var deck_start_pos = deck_node.global_position 
 	
-	# 3. RAUNT AYARLARINI ÇEK
 	var settings = get_round_settings()
 	var card_count = settings.cards
 	
-	# 4. KART DAĞITIMI
 	for p_index in range(4):
 		var current_drawn_cards = []
 		for i in range(card_count):
@@ -113,6 +112,10 @@ func start_new_round():
 		
 		if p_index == 0:
 			player_hand_referance.deal_new_hand(current_drawn_cards, deck_start_pos)
+			for card_node in player_hand_referance.player_hand:
+				if card_node.has_node("ShadowImage"):
+					card_node.get_node("ShadowImage").visible = true
+		   
 		else:
 			var opponent_path = "../OpponentHand" + str(p_index)
 			if has_node(opponent_path):
@@ -178,7 +181,7 @@ func get_card_from_slot(index):
 	
 func spawn_special_trump_indicator(suit_name, start_pos):
 	# 1. Sahneyi oluştur
-	var trump_scene = preload("res://trump_card.tscn")
+	var trump_scene = preload("res://Scenes/trump_card.tscn")
 	var trump_instance = trump_scene.instantiate()
 	add_child(trump_instance)
 	koz_kart_nesnesi = trump_instance
@@ -457,25 +460,86 @@ func on_hovered_off_card(card):
 	
 	
 func highlight_card(card, hovered):
+	# Animasyonların birbirini beklemeden aynı anda çalışması için parallel tween oluşturuyoruz
+	var tween = get_tree().create_tween().set_parallel(true)
+	
 	if hovered:
-		card.scale = Vector2(1.05,1.05)
-		card.z_index = 2
-	else:
-		card.scale = Vector2(1,1)
-		card.z_index = 1
+		# --- 1. ELASTİK BÜYÜME (Fotoğraftaki koddan alındı) ---
+		# Anında büyümek yerine, TRANS_ELASTIC ile 0.4 saniyede jöle gibi titreyerek büyür
+		tween.tween_property(card, "scale", Vector2(1.1, 1.1), 0.4).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 		
+		card.z_index = 99 
+		hovered_card = card 
+	else:
+		# --- 2. ELASTİK KÜÇÜLME ---
+		tween.tween_property(card, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		
+		# Orijinal derinliğine dön
+		if card.has_meta("orijinal_z"):
+			card.z_index = card.get_meta("orijinal_z")
+		else:
+			card.z_index = 1
+			
+		if card.has_node("ShadowImage"):
+			tween.tween_property(card.get_node("ShadowImage"), "position", Vector2(0, 25), 0.15)
+		
+		
+		if card.has_meta("start_rot"):
+			tween.tween_property(card, "rotation_degrees", card.get_meta("start_rot"), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		else:
+			tween.tween_property(card, "rotation_degrees", 0.0, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+		if hovered_card == card:
+			hovered_card = null
 	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if card_being_dragged:
+		# 1. Kartı farenin olduğu yere taşı
 		var mouse_pos = get_global_mouse_position()
-		card_being_dragged.position = Vector2(clamp(mouse_pos.x,0,screen_size.x),clamp(mouse_pos.y,0,screen_size.y))
+		card_being_dragged.position = Vector2(clamp(mouse_pos.x, 0, screen_size.x), clamp(mouse_pos.y, 0, screen_size.y))
+		
+		# Sürükleme sırasındaki Dinamik Esneme (Gölge) Mantığı
+		if card_being_dragged.has_node("ShadowImage"):
+			var shadow = card_being_dragged.get_node("ShadowImage")
+			var base_shadow_pos = Vector2(0, 40) 
+			var mouse_velocity = Input.get_last_mouse_velocity()
+			var shadow_offset = -mouse_velocity * 0.015
+			shadow_offset.x = clamp(shadow_offset.x, -40, 40)
+			shadow_offset.y = clamp(shadow_offset.y, -40, 40)
+			var target_pos = base_shadow_pos + shadow_offset
+			shadow.position = shadow.position.lerp(target_pos, 15 * delta)
+			
+	else:
+		if hovered_card and is_instance_valid(hovered_card):
+			var local_mouse = hovered_card.get_local_mouse_position()
+			
+			# (Kartının genişliğine göre 100 sayısını ufaltıp büyütebilirsin)
+			var tilt_x = clamp(local_mouse.x / 100.0, -1.0, 1.0)
+			
+			# 3. Y Ekseni Yatması: Farenin üstte mi altta mı olduğuna göre
+			var tilt_y = clamp(local_mouse.y / 150.0, -1.0, 1.0)
+			
+			# Orijinal yelpaze açısını al ki kart garip bir açıda dönmesin
+			var base_rot = 0.0
+			if hovered_card.has_meta("start_rot"):
+				base_rot = hovered_card.get_meta("start_rot")
+				
+			# Kartı farenin olduğu yöne doğru yatır (Örn: Maksimum 8 derece yatış)
+			var target_rotation = base_rot + (tilt_x * 8.0)
+			
+			hovered_card.rotation_degrees = lerp(hovered_card.rotation_degrees, target_rotation, 15 * delta)
+			
+			if hovered_card.has_node("ShadowImage"):
+				var shadow = hovered_card.get_node("ShadowImage")
+				# Fare sağdaysa gölge sola, fare üstteyse gölge aşağıya kaçar (Fiziksel Derinlik)
+				var shadow_target = Vector2(-tilt_x * 12, 25 - (tilt_y * 12))
+				shadow.position = shadow.position.lerp(shadow_target, 15 * delta)
 
 
 func _input(event):
 	if event is InputEventKey and event.pressed and event.keycode == KEY_H:
-		pass
+		toggle_opponent_cards()
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -502,6 +566,17 @@ func start_drag(card):
 	# Eğer kartın sürüklenebilir özelliği kapalıysa fonksiyonu burada bitir
 	if not card.is_draggable:
 		return
+		
+	if card.has_node("ShadowImage"):
+		# Kart havaya kalktığı için gölge daha uzağa düşüyor ve daha saydamlaşıyor
+		var tween = create_tween().set_parallel(true)
+		tween.tween_property(card.get_node("ShadowImage"), "modulate:a", 0.25, 0.15)
+
+# CardManager.gd -> finish_drag veya masaya oturduğu an:
+	if card.has_node("ShadowImage"):
+		# Kart masaya indiği için gölge yaklaşıyor
+		var tween = create_tween().set_parallel(true)
+		tween.tween_property(card.get_node("ShadowImage"), "modulate:a", 0.4, 0.15)
 		
 	card_being_dragged = card
 	card.scale = Vector2(1, 1)
@@ -555,24 +630,28 @@ func finish_drag():
 					card_being_dragged = null
 					return
 		
-		# 3. KARTIN YERLEŞTİRİLMESİ
 		player_hand_referance.remove_card_from_hand(card_being_dragged)
 		
-		# Tween ile veya direkt yerleştirme (global_position kullanmak daha garantidir)
 		card_being_dragged.global_position = card_slot_found.global_position
+		card_being_dragged.rotation_degrees = 0
 		card_being_dragged.get_node("Area2D/CollisionShape2D").disabled = true
 		card_slot_found.card_in_slot = true
 		
-		# 4. RENK KİLİTLEME: Eğer bu eli başlatan ilk kartsa rengi belirle
+		if card_being_dragged.has_node("ShadowImage"):
+			card_being_dragged.get_node("ShadowImage").visible = false
+
+		
 		if lead_suit == "":
 			lead_suit = card_being_dragged.suit
 			print("Yerdeki Renk KİLİTLENDİ (Oyuncu): ", lead_suit)
 		
-		# 5. SIRAYI GEÇ
 		next_turn()
 		
 	else:
-		# Slot bulunamadıysa veya yanlışsa ele geri döner
+		if card_being_dragged.has_node("ShadowImage"):
+			var shadow = card_being_dragged.get_node("ShadowImage")
+			var tween = get_tree().create_tween().set_parallel(true)
+			tween.tween_property(shadow, "position", Vector2(0, 25), 0.15)
 		player_hand_referance.add_card_to_hand(card_being_dragged)
 		
 	card_being_dragged = null
@@ -777,7 +856,6 @@ func process_next_bid():
 
 func show_bidding_ui():
 	bidding_panel.show()
-	# HATA ÇÖZÜMÜ: max_cards değişkenini burada tanımlıyoruz
 	var max_cards = get_round_settings().cards
 	
 	for i in range(4):
@@ -799,9 +877,8 @@ func _on_bid_button_pressed(amount):
 	advance_bidding()
 
 func bot_make_bid(bot_index):
-	await get_tree().create_timer(0.8).timeout # Bot "düşünüyor" hissi
+	await get_tree().create_timer(0.8).timeout 
 	
-	# 1. Botun el düğümüne ulaşalım
 	var opponent_node = get_node_or_null("../OpponentHand" + str(bot_index))
 	if opponent_node == null:
 		advance_bidding()
@@ -814,16 +891,13 @@ func bot_make_bid(bot_index):
 	for card in hand:
 		var alabilir_mi = false
 		
-		# KURAL 1: Elindeki kart KOZ ise ve değeri 5'ten büyükse
 		if card.suit == current_trump_suit and card.value > 5:
 			alabilir_mi = true
 		
-		# KURAL 2: Kartın rengi ne olursa olsun VALE (11) veya daha büyükse
-		# (Not: Vale=11, Kız=12, Papaz=13, As=14 kabul edilir)
+		
 		if card.value >= 11:
 			alabilir_mi = true
 			
-		# Eğer kart bu iki kuraldan birine uyuyorsa tahmin sayısını artır
 		if alabilir_mi:
 			bid += 1
 	
@@ -843,7 +917,6 @@ func bot_make_bid(bot_index):
 
 func advance_bidding():
 	bids_received += 1
-	# Saat yönünün tersi ilerleme (0 -> 1 -> 2 -> 3)
 	current_bidder = (current_bidder + 1) % 4 
 	process_next_bid()
 
@@ -878,13 +951,9 @@ func _on_confirm_button_pressed():
 	
 	confirm_button.disabled = true
 	
-	# 3. VERİYİ KAYDET (Artık güvendeyiz, değerleri alabiliriz)
 	player_bids_before[0] = int(spin_boxes[3].value)
 	
-	# 4. GÖRSEL VE MANTIK AKIŞI
 	update_summary_label()
-	# bidding_panel.hide() -> sonrasında eklenebilir
-	# 5. SÜRECİ İLERLET
 	advance_bidding()
 	
 func _mp_on_confirm_pressed():
@@ -900,15 +969,11 @@ func _mp_on_confirm_pressed():
 		rpc_id(1, "_mp_submit_bid", bid)
 
 func update_summary_label():
-	# Görseldeki "Tahminler: Player1=..." kısmını günceller
 	var text = "Tahminler: P1=%d | P2=%d | P3=%d | Siz=%d" % [
 		spin_boxes[0].value, spin_boxes[1].value, 
 		spin_boxes[2].value, spin_boxes[3].value
 	]
-	# summary_label referansın varsa buraya bas
 func update_score_display():
-	# player_bids[0] -> Senin tahminin
-	# tricks_won[0]  -> Senin o raunt kazandığın el sayısı
 	var text = "Hedef: %d\nAlınan: %d" % [player_bids_before[0], tricks_won[0]]
 	score_status_label.text = text
 	
@@ -1151,7 +1216,11 @@ func _mp_elini_dagit(benim_kartlar: Array, sayilar: Dictionary, koz_id: String, 
 	is_bidding_phase = true
 
 	player_hand_referance.deal_new_hand(benim_kartlar, deck_start_pos)
-
+	for card_node in player_hand_referance.player_hand:
+		if card_node.has_node("ShadowImage"):
+			card_node.get_node("ShadowImage").visible = true
+		
+			
 	for k in range(4):
 		if k == local_koltuk_no:
 			continue
@@ -1230,6 +1299,10 @@ func _mp_finish_drag():
 		else:
 			rpc_id(1, "_mp_kart_at", card.card_id)
 	else:
+		if card.has_node("ShadowImage"):
+			var shadow = card.get_node("ShadowImage")
+			var tween = get_tree().create_tween().set_parallel(true)
+			tween.tween_property(shadow, "position", Vector2(0, 25), 0.15)
 		player_hand_referance.update_hand_positions() 
 
 func _mp_kart_gecerli_mi(card) -> bool:
@@ -1301,6 +1374,9 @@ func _mp_kart_oynandi(seat: int, card_id: String):
 	if kart_node.has_node("Area2D/CollisionShape2D"):
 		kart_node.get_node("Area2D/CollisionShape2D").disabled = true
 	slot.card_in_slot = true
+	
+	if kart_node.has_node("ShadowImage"):
+		kart_node.get_node("ShadowImage").visible = false
 	
 	if seat == local_koltuk_no:
 		# Single player'daki gibi: kendi kartım ANINDA oturur (tween yok, rotation'a dokunma)
@@ -1470,6 +1546,7 @@ func _mp_oyun_bitti():
 	result_label.text = "OYUN BİTTİ!"
 	result_label.add_theme_color_override("font_color", Color.WHITE)
 	result_label.scale = Vector2(1, 1)
+	result_label.position = Vector2(1295,416)
 	result_label.show()
 	
 	await get_tree().create_timer(2.0).timeout
@@ -1507,12 +1584,9 @@ func show_game_over_screen():
 	var scores = []
 	var isimler = []
 	
-	# KRİTİK DÜZELTME: Yazboz tablosundaki sırayı (ui_order) referans alıyoruz
 	for i in scoreboard_manager.ui_order:
-		# Puanı doğru kişiye eşle
 		scores.append(raw_scores[i])
 		
-		# İsmi doğru kişiye eşle
 		if is_mp:
 			isimler.append(NetworkManager.koltuk_isimleri.get(i, "Oyuncu"))
 		else:
@@ -1521,5 +1595,4 @@ func show_game_over_screen():
 			else:
 				isimler.append("Player " + str(i))
 
-	# Düğümün içindeki fonksiyona hatasız eşlenmiş verileri gönder
 	game_over_screen.setup_results(scores, isimler, is_mp)

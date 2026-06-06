@@ -1,26 +1,27 @@
 [gd_scene format=3 uid="uid://3s7j3c3yexie"]
 
-[ext_resource type="Script" uid="uid://dltkoqeqsi76v" path="res://CardManager.gd" id="1_0xm2m"]
-[ext_resource type="Texture2D" uid="uid://p1r3e6b6nq40" path="res://9999520.jpg" id="1_272bh"]
-[ext_resource type="Script" uid="uid://dvd4xsjms5lic" path="res://PlayerHand.gd" id="3_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://cbp6bambhshfs" path="res://Scenes/CardSlot.tscn" id="3_h2yge"]
-[ext_resource type="Texture2D" uid="uid://kufi1mk8olka" path="res://Cards/back01.png" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://oyufchgx3qa6" path="res://Deck.gd" id="4_lquwl"]
-[ext_resource type="Script" uid="uid://b3wfp3q2samu6" path="res://InputManager.gd" id="6_7mycd"]
-[ext_resource type="PackedScene" uid="uid://bl4h4toami041" path="res://OpponentHand.tscn" id="8_5vw27"]
-[ext_resource type="Texture2D" uid="uid://dpxxlq5ndipx7" path="res://vecteezy_turkish-tea-illustration_38050393.png" id="9_kek77"]
-[ext_resource type="Script" uid="uid://c80hyxn4euvx6" path="res://MainChat.gd" id="10_efxa6"]
-[ext_resource type="Script" uid="uid://dviyrsnwxyvmu" path="res://player_1_spin.gd" id="10_w48qg"]
-[ext_resource type="Script" uid="uid://wftuyw8rm2b4" path="res://player_2_spin.gd" id="11_yaehf"]
-[ext_resource type="Script" uid="uid://b7p2k5q3jxcvc" path="res://Account.gd" id="11_ycdy4"]
-[ext_resource type="Script" uid="uid://hbdi303awdxu" path="res://player_3_spin.gd" id="12_074og"]
-[ext_resource type="Script" uid="uid://kcmfw7vbkw53" path="res://ScoreBoardManager.gd" id="12_dg77c"]
-[ext_resource type="Script" uid="uid://ck4xfpm2a10bj" path="res://player_4_spin.gd" id="13_cegan"]
-[ext_resource type="PackedScene" uid="uid://ba4gkbbbp3dbm" path="res://PausedMenu.tscn" id="13_ycdy4"]
-[ext_resource type="FontFile" uid="uid://dhu7q4d12s7k3" path="res://ArchitectsDaughter-Regular.ttf" id="17_074og"]
-[ext_resource type="Script" uid="uid://bpo5n08fjv3uy" path="res://SutunCizgiler.gd" id="17_getpj"]
-[ext_resource type="AudioStream" uid="uid://ux3fotayb0lg" path="res://freesound_community-coffee-slurp-7-94517.mp3" id="19_cegan"]
-[ext_resource type="Script" uid="uid://dmmmqjasiiurj" path="res://GameOverScreen.gd" id="20_82xsv"]
+[ext_resource type="Texture2D" uid="uid://p1r3e6b6nq40" path="res://Images/9999520.jpg" id="1_ee4r6"]
+[ext_resource type="Script" uid="uid://dltkoqeqsi76v" path="res://Scripts/CardManager.gd" id="2_gt3je"]
+[ext_resource type="PackedScene" uid="uid://cbp6bambhshfs" path="res://Scenes/CardSlot.tscn" id="3_3pmx8"]
+[ext_resource type="Script" uid="uid://dvd4xsjms5lic" path="res://Scripts/PlayerHand.gd" id="4_u50mg"]
+[ext_resource type="AudioStream" uid="uid://c65am4d0tlt13" path="res://Sounds/oxidvideos-taking-playing-card-522520.mp3" id="5_cbgmd"]
+[ext_resource type="Script" uid="uid://oyufchgx3qa6" path="res://Scripts/Deck.gd" id="6_1w6v2"]
+[ext_resource type="Texture2D" uid="uid://kufi1mk8olka" path="res://Cards/back01.png" id="7_ueoa1"]
+[ext_resource type="Script" uid="uid://b3wfp3q2samu6" path="res://Scripts/InputManager.gd" id="8_6vcvc"]
+[ext_resource type="PackedScene" uid="uid://bl4h4toami041" path="res://Scenes/OpponentHand.tscn" id="9_7k868"]
+[ext_resource type="Script" uid="uid://dviyrsnwxyvmu" path="res://Scripts/player_1_spin.gd" id="10_hpc6h"]
+[ext_resource type="Script" uid="uid://wftuyw8rm2b4" path="res://Scripts/player_2_spin.gd" id="11_kltya"]
+[ext_resource type="Script" uid="uid://hbdi303awdxu" path="res://Scripts/player_3_spin.gd" id="12_e08e2"]
+[ext_resource type="Script" uid="uid://ck4xfpm2a10bj" path="res://Scripts/player_4_spin.gd" id="13_neg2b"]
+[ext_resource type="Script" uid="uid://c80hyxn4euvx6" path="res://Scripts/MainChat.gd" id="14_r33sp"]
+[ext_resource type="Script" uid="uid://b7p2k5q3jxcvc" path="res://Scripts/Account.gd" id="15_hdf80"]
+[ext_resource type="FontFile" uid="uid://dhu7q4d12s7k3" path="res://Fonts/ArchitectsDaughter-Regular.ttf" id="16_jwpg7"]
+[ext_resource type="Script" uid="uid://kcmfw7vbkw53" path="res://Scripts/ScoreBoardManager.gd" id="17_k2e45"]
+[ext_resource type="Script" uid="uid://bpo5n08fjv3uy" path="res://Scripts/SutunCizgiler.gd" id="18_536cc"]
+[ext_resource type="Texture2D" uid="uid://dpxxlq5ndipx7" path="res://Images/vecteezy_turkish-tea-illustration_38050393.png" id="19_aqgau"]
+[ext_resource type="AudioStream" uid="uid://ux3fotayb0lg" path="res://Sounds/freesound_community-coffee-slurp-7-94517.mp3" id="20_8cuat"]
+[ext_resource type="PackedScene" uid="uid://ba4gkbbbp3dbm" path="res://Scenes/PausedMenu.tscn" id="21_o1aky"]
+[ext_resource type="Script" uid="uid://dmmmqjasiiurj" path="res://Scripts/GameOverScreen.gd" id="22_kwxat"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
 size = Vector2(171, 262)
@@ -41,7 +42,7 @@ content_margin_bottom = 7.0
 bg_color = Color(0.13501206, 0.13501206, 0.135012, 1)
 
 [sub_resource type="Resource" id="Resource_w48qg"]
-script = ExtResource("11_ycdy4")
+script = ExtResource("15_hdf80")
 username = "Linbozo"
 description = "I like card games"
 metadata/_custom_type_script = "uid://b7p2k5q3jxcvc"
@@ -101,41 +102,44 @@ offset_left = 3.0
 offset_top = -25.0
 offset_right = 3003.0
 offset_bottom = 1975.0
-texture = ExtResource("1_272bh")
+texture = ExtResource("1_ee4r6")
 
 [node name="CardManager" type="Node2D" parent="." unique_id=1479037975 node_paths=PackedStringArray("koltuk_isim_etiketleri")]
-script = ExtResource("1_0xm2m")
+script = ExtResource("2_gt3je")
 koltuk_isim_etiketleri = [NodePath("../Player1"), NodePath("../Player2"), NodePath("../Player3")]
 
-[node name="CardSlot" parent="." unique_id=980458350 instance=ExtResource("3_h2yge")]
+[node name="CardSlot" parent="." unique_id=980458350 instance=ExtResource("3_3pmx8")]
 z_index = -1
 position = Vector2(1500, 1068)
 
-[node name="Opponent2CardSlot" parent="." unique_id=120272638 instance=ExtResource("3_h2yge")]
+[node name="Opponent2CardSlot" parent="." unique_id=120272638 instance=ExtResource("3_3pmx8")]
 z_index = -1
 position = Vector2(1500, 776)
 
-[node name="Opponent3CardSlot" parent="." unique_id=1383684942 instance=ExtResource("3_h2yge")]
+[node name="Opponent3CardSlot" parent="." unique_id=1383684942 instance=ExtResource("3_3pmx8")]
 z_index = -1
 position = Vector2(1727, 916)
 
-[node name="Opponent1CardSlot" parent="." unique_id=2100200374 instance=ExtResource("3_h2yge")]
+[node name="Opponent1CardSlot" parent="." unique_id=2100200374 instance=ExtResource("3_3pmx8")]
 z_index = -1
 position = Vector2(1265, 916)
 
 [node name="PlayerHand" type="Node2D" parent="." unique_id=35678821]
 position = Vector2(1500, 1800)
-script = ExtResource("3_1bvp3")
+script = ExtResource("4_u50mg")
+
+[node name="DealSound" type="AudioStreamPlayer" parent="PlayerHand" unique_id=1067328117]
+stream = ExtResource("5_cbgmd")
 
 [node name="Deck" type="Node2D" parent="." unique_id=1390371590]
 position = Vector2(300, 1600)
-script = ExtResource("4_lquwl")
+script = ExtResource("6_1w6v2")
 
 [node name="Sprite2D" type="Sprite2D" parent="Deck" unique_id=1483889973]
 z_index = -2
 position = Vector2(1.0000095, 2.9999676)
 scale = Vector2(0.48082379, 0.5068358)
-texture = ExtResource("4_1bvp3")
+texture = ExtResource("7_ueoa1")
 
 [node name="Area2D" type="Area2D" parent="Deck" unique_id=981490125]
 collision_layer = 4
@@ -147,9 +151,9 @@ shape = SubResource("RectangleShape2D_h2yge")
 
 [node name="InputManager" type="Node2D" parent="." unique_id=1799585418]
 position = Vector2(-8, -2)
-script = ExtResource("6_7mycd")
+script = ExtResource("8_6vcvc")
 
-[node name="OpponentHand1" parent="." unique_id=1263266665 instance=ExtResource("8_5vw27")]
+[node name="OpponentHand1" parent="." unique_id=1263266665 instance=ExtResource("9_7k868")]
 position = Vector2(300, 916)
 hand_direction = "vertical"
 hand_side = "Left"
@@ -170,7 +174,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "ALINAN: 0"
 
-[node name="OpponentHand2" parent="." unique_id=1303253121 instance=ExtResource("8_5vw27")]
+[node name="OpponentHand2" parent="." unique_id=1303253121 instance=ExtResource("9_7k868")]
 position = Vector2(1500, 182)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="OpponentHand2" unique_id=716187747]
@@ -189,7 +193,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "ALINAN: 0"
 
-[node name="OpponentHand3" parent="." unique_id=550644154 instance=ExtResource("8_5vw27")]
+[node name="OpponentHand3" parent="." unique_id=550644154 instance=ExtResource("9_7k868")]
 position = Vector2(2600, 916)
 hand_direction = "vertical"
 hand_side = "Right"
@@ -246,7 +250,7 @@ text = "Player 1"
 [node name="Player1Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer1" unique_id=1389576529]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
-script = ExtResource("10_w48qg")
+script = ExtResource("10_hpc6h")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=852900605]
 layout_mode = 2
@@ -259,7 +263,7 @@ text = "Player 2"
 [node name="Player2Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1687675202]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
-script = ExtResource("11_yaehf")
+script = ExtResource("11_kltya")
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1639258586]
 layout_mode = 2
@@ -272,7 +276,7 @@ text = "Player 3"
 [node name="Player3Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer3" unique_id=566060995]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
-script = ExtResource("12_074og")
+script = ExtResource("12_e08e2")
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="BiddingPanel/VBoxContainer/HBoxContainer" unique_id=1031952260]
 layout_mode = 2
@@ -285,7 +289,7 @@ text = " Siz"
 [node name="Player4Spin" type="SpinBox" parent="BiddingPanel/VBoxContainer/HBoxContainer/VBoxContainer4" unique_id=1800413008]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
-script = ExtResource("13_cegan")
+script = ExtResource("13_neg2b")
 
 [node name="ConfirmButton" type="Button" parent="BiddingPanel/VBoxContainer" unique_id=751675257]
 layout_mode = 2
@@ -300,7 +304,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("10_efxa6")
+script = ExtResource("14_r33sp")
 current_account = SubResource("Resource_w48qg")
 
 [node name="MarginContainer" type="MarginContainer" parent="MainChat" unique_id=973151849]
@@ -371,7 +375,7 @@ theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 
 theme_override_colors/font_focus_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_pressed_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_hover_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
-theme_override_fonts/font = ExtResource("17_074og")
+theme_override_fonts/font = ExtResource("16_jwpg7")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxFlat_074og")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cegan")
@@ -383,14 +387,14 @@ text = "YAZBOZ"
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_yaehf")
-script = ExtResource("12_dg77c")
+script = ExtResource("17_k2e45")
 score_grid = NodePath("VBoxContainer/ScrollContainer/ScoreGrid")
 scroll_container = NodePath("VBoxContainer/ScrollContainer")
 header_labels = [NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P1"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P2"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/P3"), NodePath("VBoxContainer/ScrollContainer/ScoreGrid/Siz")]
 
 [node name="SutunCizgileri" type="Control" parent="CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel" unique_id=818814260 node_paths=PackedStringArray("score_grid", "scroll_container")]
 layout_mode = 2
-script = ExtResource("17_getpj")
+script = ExtResource("18_536cc")
 score_grid = NodePath("../VBoxContainer/ScrollContainer/ScoreGrid")
 scroll_container = NodePath("../VBoxContainer/ScrollContainer")
 
@@ -421,7 +425,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("17_074og")
+theme_override_fonts/font = ExtResource("16_jwpg7")
 theme_override_font_sizes/font_size = 32
 text = "R"
 horizontal_alignment = 1
@@ -434,7 +438,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("17_074og")
+theme_override_fonts/font = ExtResource("16_jwpg7")
 theme_override_font_sizes/font_size = 32
 text = "Player 1"
 horizontal_alignment = 1
@@ -446,7 +450,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("17_074og")
+theme_override_fonts/font = ExtResource("16_jwpg7")
 theme_override_font_sizes/font_size = 32
 text = "Player 2"
 horizontal_alignment = 1
@@ -458,7 +462,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("17_074og")
+theme_override_fonts/font = ExtResource("16_jwpg7")
 theme_override_font_sizes/font_size = 32
 text = "Player 3"
 horizontal_alignment = 1
@@ -470,7 +474,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("17_074og")
+theme_override_fonts/font = ExtResource("16_jwpg7")
 theme_override_font_sizes/font_size = 32
 text = "Siz"
 horizontal_alignment = 1
@@ -520,15 +524,15 @@ offset_top = 1440.0
 offset_right = 5858.0
 offset_bottom = 4578.0
 scale = Vector2(0.08, 0.08)
-texture_normal = ExtResource("9_kek77")
+texture_normal = ExtResource("19_aqgau")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Cay" unique_id=1299961184]
-stream = ExtResource("19_cegan")
+stream = ExtResource("20_8cuat")
 
 [node name="CanvasLayer3" type="CanvasLayer" parent="." unique_id=1669493112]
 layer = 9
 
-[node name="PausedMenu" parent="CanvasLayer3" unique_id=1386088285 instance=ExtResource("13_ycdy4")]
+[node name="PausedMenu" parent="CanvasLayer3" unique_id=1386088285 instance=ExtResource("21_o1aky")]
 visible = false
 visibility_layer = 2
 offset_top = 14.0
@@ -536,7 +540,7 @@ offset_right = 130.0
 offset_bottom = 14.0
 
 [node name="GameOverScreen" type="CanvasLayer" parent="." unique_id=208433406]
-script = ExtResource("20_82xsv")
+script = ExtResource("22_kwxat")
 
 [node name="Background" type="PanelContainer" parent="GameOverScreen" unique_id=1687891854]
 offset_left = 1125.0

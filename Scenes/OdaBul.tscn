@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b83uqbsfuufx6"]
 
-[ext_resource type="Texture2D" uid="uid://p1r3e6b6nq40" path="res://9999520.jpg" id="1_8788b"]
-[ext_resource type="Script" uid="uid://cmt2s2e5m04ya" path="res://Scenes/OdaBul.gd" id="2_mamb4"]
+[ext_resource type="Texture2D" uid="uid://p1r3e6b6nq40" path="res://Images/9999520.jpg" id="1_8788b"]
+[ext_resource type="Script" uid="uid://cmt2s2e5m04ya" path="res://Scripts/OdaBul.gd" id="2_mamb4"]
 
 [node name="TextureRect" type="TextureRect" unique_id=548288332]
 offset_right = 40.0

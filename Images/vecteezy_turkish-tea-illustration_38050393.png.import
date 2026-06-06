@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b77xoqgjydnoj"
-path="res://.godot/imported/CardSlot.png-ce2a75163d8c7ecc316afc7cba9c1a17.ctex"
+uid="uid://dpxxlq5ndipx7"
+path="res://.godot/imported/vecteezy_turkish-tea-illustration_38050393.png-6e5f53799e36b3fa0ebc56a73a8702b6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://CardSlot.png"
-dest_files=["res://.godot/imported/CardSlot.png-ce2a75163d8c7ecc316afc7cba9c1a17.ctex"]
+source_file="res://Images/vecteezy_turkish-tea-illustration_38050393.png"
+dest_files=["res://.godot/imported/vecteezy_turkish-tea-illustration_38050393.png-6e5f53799e36b3fa0ebc56a73a8702b6.ctex"]
 
 [params]
 

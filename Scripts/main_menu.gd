@@ -1,6 +1,6 @@
 extends Control
 
-const GAME_SCENE_PATH = "res://main.tscn" 
+const GAME_SCENE_PATH = "res://Scenes/main.tscn" 
 
 const ODA_AC_POPUP_SCENE = preload("res://material/OdaAc.tscn")
 const ODA_BUL_POPUP_SCENE = preload("res://Scenes/OdaBul.tscn")

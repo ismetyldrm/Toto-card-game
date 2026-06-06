@@ -15,10 +15,8 @@ func _draw():
 	var hucreler = score_grid.get_children()
 	if hucreler.size() < 5:
 		return
-	# Çizgiler tablo alanının tepesinden dibine kadar
 	var ust = scroll_container.global_position.y - global_position.y
 	var alt = ust + scroll_container.size.y
-	# İlk 5 hücre = başlık satırı. R, P1, P2, P3'ün sağ sınırı (Siz hariç → 4 çizgi)
 	for i in range(4):
 		var hucre = hucreler[i]
 		if hucre is Control:

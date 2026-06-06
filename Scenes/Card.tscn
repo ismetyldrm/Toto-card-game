@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bovcrelid2o8t"]
 
-[ext_resource type="Script" uid="uid://bvub4qqknedmq" path="res://Card.gd" id="1_3p273"]
+[ext_resource type="Script" uid="uid://bvub4qqknedmq" path="res://Scripts/Card.gd" id="1_3p273"]
+[ext_resource type="Texture2D" uid="uid://kufi1mk8olka" path="res://Cards/back01.png" id="2_3p273"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
 size = Vector2(160, 248)
@@ -8,6 +9,12 @@ size = Vector2(160, 248)
 [node name="Card" type="Node2D" unique_id=690486454]
 position = Vector2(300, 1600)
 script = ExtResource("1_3p273")
+
+[node name="ShadowImage" type="Sprite2D" parent="." unique_id=1510744239]
+modulate = Color(0, 0, 0, 0.003921569)
+position = Vector2(0, 25)
+scale = Vector2(0.455, 0.484)
+texture = ExtResource("2_3p273")
 
 [node name="CardImage" type="Sprite2D" parent="." unique_id=2035328200]
 position = Vector2(-1.9999998, 2.9999695)

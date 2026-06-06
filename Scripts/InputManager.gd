@@ -8,14 +8,6 @@ var card_manager_referance
 
 func _ready() -> void:
 	card_manager_referance = $"../CardManager"
-
-
-#func _input(event):
-#	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-#		if event.pressed:
-#			raycast_at_cursor()
-#		else:
-#			pass
 			
 func raycast_at_cursor():
 	var space_state = get_world_2d().direct_space_state

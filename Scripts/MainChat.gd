@@ -44,12 +44,12 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 	if "local_player_name" in NetworkManager:
 		gonderen = NetworkManager.local_player_name
 
-	send_field.text = ""   # girişi sadece gönderende temizle
+	send_field.text = "" 
 
 	if multiplayer.has_multiplayer_peer() and NetworkManager.game_mode == NetworkManager.GameMode.MULTIPLAYER:
-		rpc("_mp_mesaj_al", gonderen, new_text)   # call_local → bende de görünür
+		rpc("_mp_mesaj_al", gonderen, new_text)   
 	else:
-		_mesaj_goster(gonderen, new_text)         # tek kişilik / yerel
+		_mesaj_goster(gonderen, new_text)         
 
 
 func _on_chat_size_text_submitted(new_text: String) -> void:

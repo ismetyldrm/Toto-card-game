@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://dhu7q4d12s7k3"
-path="res://.godot/imported/ArchitectsDaughter-Regular.ttf-26f5fab55185fc7b43984881cda2f592.fontdata"
+path="res://.godot/imported/ArchitectsDaughter-Regular.ttf-8838311b1ef014d5976056a33db8f6d8.fontdata"
 
 [deps]
 
-source_file="res://ArchitectsDaughter-Regular.ttf"
-dest_files=["res://.godot/imported/ArchitectsDaughter-Regular.ttf-26f5fab55185fc7b43984881cda2f592.fontdata"]
+source_file="res://Fonts/ArchitectsDaughter-Regular.ttf"
+dest_files=["res://.godot/imported/ArchitectsDaughter-Regular.ttf-8838311b1ef014d5976056a33db8f6d8.fontdata"]
 
 [params]
 

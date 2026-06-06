@@ -52,7 +52,7 @@ func _on_main_menu_btn_pressed():
 		multiplayer.multiplayer_peer = null 
 	
 	# Kendi ana menü sahnenin yolunu buraya yaz:
-	get_tree().change_scene_to_file("res://main_menu.tscn") 
+	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn") 
 
 func _on_new_game_btn_pressed():
 	get_tree().reload_current_scene()

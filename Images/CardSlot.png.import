@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcrdkq3ill02s"
-path="res://.godot/imported/kulluk.png-bd0bb8e395cad55f319f29aea7b73cac.ctex"
+uid="uid://b77xoqgjydnoj"
+path="res://.godot/imported/CardSlot.png-c0dc568e7860018bb537bffd6b5cc557.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://kulluk.png"
-dest_files=["res://.godot/imported/kulluk.png-bd0bb8e395cad55f319f29aea7b73cac.ctex"]
+source_file="res://Images/CardSlot.png"
+dest_files=["res://.godot/imported/CardSlot.png-c0dc568e7860018bb537bffd6b5cc557.ctex"]
 
 [params]
 
