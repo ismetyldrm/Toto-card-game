@@ -20,13 +20,13 @@ var koltuklar = {}
 var local_koltuk_no = 0
 var mp_alinan = [0,0,0,0] # MP koltuk başına kazanılan el
 
-var current_round = 1
+var current_round = 13
 const MAX_CARDS_PER_ROUND = 13
 const TOTAL_ROUNDS = 20
 
 var koz_kart_nesnesi = null
-const KOZ_POSITION = Vector2(300,1600)
-const KOZ_POSITION2 = Vector2(305,1630)
+const KOZ_POSITION = Vector2(300,1732)
+const KOZ_POSITION2 = Vector2(300,1760)
 @onready var cay_sesi: AudioStreamPlayer = $"../Cay/AudioStreamPlayer"
 @onready var round_label = $"../CanvasLayer/RoundLabel" 
 @onready var scoreboard_manager = $"../CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel"
@@ -165,10 +165,6 @@ func update_round_label():
 	top_right_round_label.pivot_offset = top_right_round_label.size / 2 
 	tween.tween_property(top_right_round_label, "scale", Vector2(1.2, 1.2), 0.1)
 	tween.tween_property(top_right_round_label, "scale", Vector2(1.0, 1.0), 0.1)
-		
-		
-		
-	
 
 func get_card_from_slot(index):
 	var slot = center_slots[index]
@@ -217,12 +213,6 @@ func spawn_special_trump_indicator(suit_name, start_pos):
 	# Dönüş Animasyonu
 	tween.tween_property(trump_instance, "rotation_degrees", 360, 0.6)\
 		.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	
-	
-	
-	
-	
-	
 
 func get_round_settings():
 	var settings = {"cards": 1, "trump": "Random", "is_sanzoti": false}
@@ -315,8 +305,7 @@ func calculate_scores():
 	var tween = get_tree().create_tween()
 	tween.tween_property(result_label, "scale", Vector2(1.2, 1.2), 0.5).set_trans(Tween.TRANS_BOUNCE)
 	
-	# 2. PUANLAMA VE TABLOYA EKLEME (İşi uzmanına devrediyoruz)
-	# Önceki kodundaki "for i in range(4)" döngüsünün yerini bu tek satır alıyor:
+	
 	if scoreboard_manager:
 		var is_sanzoti = (current_trump_suit == "None")
 		scoreboard_manager.add_new_round_results(tricks_won, player_bids_before, is_sanzoti)
@@ -326,9 +315,6 @@ func calculate_scores():
 	result_label.hide()
 	
 	tricks_won = [0, 0, 0, 0]
-	
-
-	
 
 func check_hand_status():
 	var full_slots = 0
@@ -350,10 +336,9 @@ func clear_table_cards():
 	if winner_index == 0:
 		update_score_display()
 	current_turn = winner_index
-	lead_suit = "" # Masadaki rengi sıfırla
+	lead_suit = "" 
 	
-	# --- HEDEF BELİRLEME (GÜNCELLENDİ) ---
-	# Kartların 'ok gibi' gitmesi için hedefi ekranın dışına veya kenarına alıyoruz.
+	
 	var target_pos = Vector2.ZERO
 	if winner_index == 0:
 		target_pos = Vector2(screen_size.x / 2, screen_size.y + 500)
@@ -378,17 +363,15 @@ func clear_table_cards():
 	
 	for c in cards_to_clear:
 		# 1. Aşırı Hızlı Hareket (0.2 saniye, TRANS_EXPO ile 'Vınn' etkisi)
+		tween.tween_property(c, "rotation_degrees", randf_range(-45, 45), 0.3)
 		tween.tween_property(c, "global_position", target_pos, 0.3)\
 			.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 		
-		# 2. Şekillerini Koruyacak Şekilde Ufak Küçülme (Ok ucu gibi)
 		tween.tween_property(c, "scale", Vector2(0.4, 0.4), 0.2)
 		
 		
-	# Animasyonun bitmesini bekle
 	await tween.finished
 	
-	# Kartları hafızadan sil (Ekran dışına çıktılar)
 	for c in cards_to_clear:
 		c.queue_free()
 	
@@ -464,8 +447,7 @@ func highlight_card(card, hovered):
 	var tween = get_tree().create_tween().set_parallel(true)
 	
 	if hovered:
-		# --- 1. ELASTİK BÜYÜME (Fotoğraftaki koddan alındı) ---
-		# Anında büyümek yerine, TRANS_ELASTIC ile 0.4 saniyede jöle gibi titreyerek büyür
+		
 		tween.tween_property(card, "scale", Vector2(1.1, 1.1), 0.4).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 		
 		card.z_index = 99 
@@ -539,7 +521,7 @@ func _process(delta: float) -> void:
 
 func _input(event):
 	if event is InputEventKey and event.pressed and event.keycode == KEY_H:
-		toggle_opponent_cards()
+		pass
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -559,22 +541,17 @@ func toggle_opponent_cards():
 			for card in hand_node.cards_in_hand:
 				card.is_face_up = !card.is_face_up
 				card.setup_appearance()
-# CardManager.gd içindeki start_drag fonksiyonu
 func start_drag(card):
 	if current_turn != local_koltuk_no:
 		return
-	# Eğer kartın sürüklenebilir özelliği kapalıysa fonksiyonu burada bitir
 	if not card.is_draggable:
 		return
 		
 	if card.has_node("ShadowImage"):
-		# Kart havaya kalktığı için gölge daha uzağa düşüyor ve daha saydamlaşıyor
 		var tween = create_tween().set_parallel(true)
 		tween.tween_property(card.get_node("ShadowImage"), "modulate:a", 0.25, 0.15)
 
-# CardManager.gd -> finish_drag veya masaya oturduğu an:
 	if card.has_node("ShadowImage"):
-		# Kart masaya indiği için gölge yaklaşıyor
 		var tween = create_tween().set_parallel(true)
 		tween.tween_property(card.get_node("ShadowImage"), "modulate:a", 0.4, 0.15)
 		
@@ -644,7 +621,7 @@ func finish_drag():
 		if lead_suit == "":
 			lead_suit = card_being_dragged.suit
 			print("Yerdeki Renk KİLİTLENDİ (Oyuncu): ", lead_suit)
-		
+			
 		next_turn()
 		
 	else:
@@ -671,15 +648,12 @@ func next_turn():
 			full_slots += 1 
 			
 	if full_slots == 4:
-		# 4 kart dolduğunda clear_table_cards içindeki mantık devreye girer
 		await check_hand_status() 
 		return
 		
 	else:
-		# Henüz 4 kart olmadıysa sıra bir sonrakine geçer
 		current_turn = (current_turn + 3) % 4 
 	
-	# Sıra oyuncuda değilse botu başlat
 	if current_turn != 0:
 		start_bot_turn() 
 		
@@ -688,13 +662,11 @@ func start_bot_turn():
 		return
 	is_bot_playing = true
 	
-	# Botun "düşünme" süresi (Daha doğal bir his için)
-	await get_tree().create_timer(1.0).timeout 
-	
-	
+	var bit_time = randf_range(0.6,1.2)
+	await get_tree().create_timer(bit_time).timeout
+
 	var slot_node = center_slots[current_turn]
 	
-	# El düğümünü bot indeksine göre alıyoruz. 
 	var opponent_node = get_node_or_null("../OpponentHand" + str(current_turn))
 	
 	# Güvenlik Kontrolü: Düğümler sahnede yoksa hata vermesini ve oyunu durdurmasını engelleriz.
@@ -704,11 +676,9 @@ func start_bot_turn():
 		next_turn()
 		return
 
-	# Zeki kart seçimi
 	var card_to_play = select_card_for_bot(opponent_node)
 	
 	if card_to_play:
-		# Reparenting (Kartı elden çıkarıp masaya (Manager'a) ekleme)
 		var current_global_pos = card_to_play.global_position
 		card_to_play.get_parent().remove_child(card_to_play)
 		add_child(card_to_play)
@@ -721,8 +691,7 @@ func start_bot_turn():
 		if lead_suit == "":
 			lead_suit = card_to_play.suit
 			print("Yerdeki Renk KİLİTLENDİ (Bot ", current_turn, "): ", lead_suit)
-		
-		# Slotun dolu olduğunu işaretle
+			
 		slot_node.card_in_slot = true
 		
 		# --- GÖRSEL AKICILIK: Animasyonu BEKLEME ---
@@ -849,18 +818,17 @@ func process_next_bid():
 		confirm_button.disabled = false
 		show_bidding_ui()
 	else:
-		# Bot sırasındayken panelin kapalı ve düğmenin kilitli olduğundan emin ol
 		confirm_button.disabled = true
-		# bidding_panel.hide() # İsteğe bağlı: Botlar oynarken panel kapansın mı?
 		bot_make_bid(current_bidder)
 
 func show_bidding_ui():
+	
+	
 	bidding_panel.show()
 	var max_cards = get_round_settings().cards
 	
 	for i in range(4):
 		spin_boxes[i].max_value = max_cards
-		# 3. indeks (VBoxContainer4 - Siz) dışındakileri kilitliyoruz
 		spin_boxes[i].editable = (i == 3)
 		
 		# Eğer ilk defa açılıyorsa sıfırla
@@ -1473,6 +1441,7 @@ func _mp_el_temizle(kazanan_seat: int):
 	await get_tree().create_timer(1.2).timeout
 	var tween = get_tree().create_tween().set_parallel(true)
 	for c in cards_to_clear:
+		tween.tween_property(c, "rotation_degrees", randf_range(-45, 45), 0.3)
 		tween.tween_property(c, "global_position", target_pos, 0.3)\
 			.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 		tween.tween_property(c, "scale", Vector2(0.4, 0.4), 0.2)

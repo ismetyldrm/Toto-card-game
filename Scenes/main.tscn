@@ -22,6 +22,7 @@
 [ext_resource type="AudioStream" uid="uid://ux3fotayb0lg" path="res://Sounds/freesound_community-coffee-slurp-7-94517.mp3" id="20_8cuat"]
 [ext_resource type="PackedScene" uid="uid://ba4gkbbbp3dbm" path="res://Scenes/PausedMenu.tscn" id="21_o1aky"]
 [ext_resource type="Script" uid="uid://dmmmqjasiiurj" path="res://Scripts/GameOverScreen.gd" id="22_kwxat"]
+[ext_resource type="PackedScene" uid="uid://ffqm8kg1hg5n" path="res://Scenes/candle_table.tscn" id="23_gt3je"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
 size = Vector2(171, 262)
@@ -125,14 +126,14 @@ z_index = -1
 position = Vector2(1265, 916)
 
 [node name="PlayerHand" type="Node2D" parent="." unique_id=35678821]
-position = Vector2(1500, 1800)
+position = Vector2(1500, 1732)
 script = ExtResource("4_u50mg")
 
 [node name="DealSound" type="AudioStreamPlayer" parent="PlayerHand" unique_id=1067328117]
 stream = ExtResource("5_cbgmd")
 
 [node name="Deck" type="Node2D" parent="." unique_id=1390371590]
-position = Vector2(300, 1600)
+position = Vector2(295, 1732)
 script = ExtResource("6_1w6v2")
 
 [node name="Sprite2D" type="Sprite2D" parent="Deck" unique_id=1483889973]
@@ -334,10 +335,10 @@ layer = 8
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -370.0
-offset_top = 25.0
-offset_right = -186.0
-offset_bottom = 142.0
+offset_left = -494.0
+offset_top = 33.0
+offset_right = -310.0
+offset_bottom = 150.0
 grow_horizontal = 0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
@@ -519,10 +520,10 @@ theme_override_font_sizes/font_size = 34
 text = "Round: 1 / 19"
 
 [node name="Cay" type="TextureButton" parent="." unique_id=465312848]
-offset_left = 2425.0
-offset_top = 1440.0
-offset_right = 5858.0
-offset_bottom = 4578.0
+offset_left = 2415.0
+offset_top = 1564.0
+offset_right = 5848.0
+offset_bottom = 4702.0
 scale = Vector2(0.08, 0.08)
 texture_normal = ExtResource("19_aqgau")
 
@@ -585,6 +586,10 @@ text = "Ana Menüye Dön"
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Yeni Oyun"
+
+[node name="CandleTable" parent="." unique_id=253146274 instance=ExtResource("23_gt3je")]
+visible = false
+position = Vector2(2079, 619)
 
 [connection signal="pressed" from="BiddingPanel/VBoxContainer/ConfirmButton" to="CardManager" method="_on_confirm_button_pressed"]
 [connection signal="text_submitted" from="MainChat/MarginContainer/VBoxContainer/SendMessage" to="MainChat" method="_on_line_edit_text_submitted"]

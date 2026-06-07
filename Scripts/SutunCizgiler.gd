@@ -1,5 +1,4 @@
 extends Control
-# Tablo sütun çizgilerini tam yükseklikte çizer
 
 @export var score_grid: GridContainer
 @export var scroll_container: ScrollContainer
@@ -7,7 +6,7 @@ extends Control
 @export var cizgi_kalinlik: float = 2.0
 
 func _process(_delta):
-	queue_redraw()   # layout/scroll değişince çizgiler güncellensin
+	queue_redraw()   
 
 func _draw():
 	if score_grid == null or scroll_container == null:

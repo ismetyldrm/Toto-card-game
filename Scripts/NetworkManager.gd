@@ -4,7 +4,6 @@ const DEFAULT_PORT = 12345
 const MAX_PLAYERS = 4
 const GAME_SCENE = "res://Scenes/main.tscn"
 
-# --- UDP Keşif Protokolü Sabitleri ---
 const BROADCAST_PORT = 12346 # Odaları aramak için kullanılacak bağımsız port
 const BROADCAST_INTERVAL = 1.0 # 1 saniyede bir "Oda Açık" sinyali gönder
 
@@ -52,7 +51,6 @@ func create_room(room_name: String) -> bool:
 		
 	multiplayer.multiplayer_peer = peer
 	
-	# Oda açıldığı an yerel ağa UDP yayını başlatıyoruz
 	_start_broadcasting(room_name)
 	return true
 
@@ -123,7 +121,7 @@ func start_searching_rooms():
 
 	udp_client = PacketPeerUDP.new()
 	udp_client.set_broadcast_enabled(true)
-	var err = udp_client.bind(0, "*")  # 0 = rastgele port → çakışma olmaz
+	var err = udp_client.bind(0, "*")  
 	if err != OK:
 		print("Arama soketi açılamadı: ", err)
 		return
@@ -133,9 +131,8 @@ func start_searching_rooms():
 	broadcast_timer.autostart = true
 	broadcast_timer.timeout.connect(_send_discovery_request)
 	add_child(broadcast_timer)
-	_send_discovery_request()  # ilk isteği hemen at
+	_send_discovery_request()  
 	
-# Client'lar bunu host'a çağırır; host kendini doğrudan sayar
 @rpc("any_peer", "reliable")
 func oyuncu_sahnede_hazir():
 	if not multiplayer.is_server():
@@ -165,14 +162,12 @@ func _listen_for_rooms():
 		
 		if json.parse(json_string) == OK:
 			var data = json.get_data()
-			# Odayı active_rooms sözlüğüne ekle veya güncelle
 			active_rooms[remote_ip] = {
 				"room_name": data["room_name"],
 				"players": data["player_count"],
 				"last_seen": Time.get_ticks_msec()
 			}
 			
-			# Listede eskiyen (artık sinyal atmayan) odaları temizle (Zaman aşımı: 4 saniye)
 			var current_time = Time.get_ticks_msec()
 			for ip in active_rooms.keys():
 				if current_time - active_rooms[ip]["last_seen"] > 4000:
@@ -224,10 +219,8 @@ func _start_multiplayer_game():
 		koltuk_haritasi[peer_id] = koltuk
 		koltuk += 1
 
-	# Host kendi ismini de eklesin
 	_peer_isimleri[1] = local_player_name
 
-	# İsimleri koltuğa göre eşle
 	koltuk_isimleri.clear()
 	for peer_id in koltuk_haritasi.keys():
 		var seat = koltuk_haritasi[peer_id]
@@ -267,29 +260,22 @@ func _on_player_disconnected(id: int):
 		_send_updated_player_count_to_everyone()
 		
 		
-# Güncel oyuncu sayısını hesaplayıp ağa gönderen yardımcı fonksiyon
 func _send_updated_player_count_to_everyone():
-	# get_peers().size() odadaki istemcilerdir. +1 ekliyoruz çünkü Server da bir oyuncudur.
 	var toplam_oyuncu = multiplayer.get_peers().size() + 1
 	var metin = "Oyuncu Sayısı: " + str(toplam_oyuncu) + " / " + str(MAX_PLAYERS)
 	
-	# call_local sayesinde bu fonksiyon sunucunun kendi ekranında da çalışır
 	rpc("update_lobby_player_count", metin)
 
-# --- OYUNCU SAYISINI EKRANA BASAN RPC FONKSİYONU ---
 @rpc("any_peer", "call_local", "reliable")
 func update_lobby_player_count(sayi_metni: String):
 	var ana_sahne = get_tree().current_scene
 	if ana_sahne:
-		# Sahnelerin nerede saklandığını umursamadan etiketi arayıp güncelliyoruz
 		_recursive_update_label(ana_sahne, sayi_metni)
 
-# Sahne içindeki hedef etiketi bulan derinlemesine fonksiyon
 func _recursive_update_label(node: Node, metin: String):
 	if not is_instance_valid(node):
 		return
 		
-	# Eğer düğümün adı OyuncuSayisiLabel ise metnini jilet gibi güncelle
 	if node.name == "OyuncuSayisiLabel" and node is Label:
 		node.text = metin
 		return
