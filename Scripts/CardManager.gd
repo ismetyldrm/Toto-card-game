@@ -20,7 +20,7 @@ var koltuklar = {}
 var local_koltuk_no = 0
 var mp_alinan = [0,0,0,0] # MP koltuk başına kazanılan el
 
-var current_round = 13
+var current_round = 1
 const MAX_CARDS_PER_ROUND = 13
 const TOTAL_ROUNDS = 20
 
