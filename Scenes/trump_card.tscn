@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://drfgsbv5kq3g3"]
 
-[ext_resource type="Texture2D" uid="uid://davsv4ulnpilw" path="res://Cards/clubs_02.png" id="1_836cr"]
-[ext_resource type="Texture2D" uid="uid://bh6vwoesrrvtv" path="res://Cards/diamonds_02.png" id="2_g17bw"]
-[ext_resource type="Texture2D" uid="uid://bh0dj8u2v2t1h" path="res://Cards/hearts_02.png" id="3_io8ge"]
-[ext_resource type="Texture2D" uid="uid://bptwc847pw1a3" path="res://Cards/spades_02.png" id="4_q12di"]
+[ext_resource type="Texture2D" uid="uid://davsv4ulnpilw" path="res://Cards/clubs_02.png" id="1_lds6r"]
+[ext_resource type="Texture2D" uid="uid://bh6vwoesrrvtv" path="res://Cards/diamonds_02.png" id="2_1vtuk"]
+[ext_resource type="Texture2D" uid="uid://bh0dj8u2v2t1h" path="res://Cards/hearts_02.png" id="3_hfdj1"]
+[ext_resource type="Texture2D" uid="uid://bptwc847pw1a3" path="res://Cards/spades_02.png" id="4_3nio0"]
 
 [node name="TrumpCard" type="Control" unique_id=332928309]
 layout_mode = 3
@@ -15,7 +15,7 @@ grow_vertical = 2
 
 [node name="NoNumberClubs02" type="Sprite2D" parent="." unique_id=845826545]
 scale = Vector2(0.481, 0.507)
-texture = ExtResource("1_836cr")
+texture = ExtResource("1_lds6r")
 
 [node name="ColorRect" type="ColorRect" parent="NoNumberClubs02" unique_id=620456153]
 offset_left = -163.22313
@@ -35,7 +35,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="NoNumberDiamonds02" type="Sprite2D" parent="." unique_id=1660826959]
 scale = Vector2(0.481, 0.507)
-texture = ExtResource("2_g17bw")
+texture = ExtResource("2_1vtuk")
 
 [node name="ColorRect3" type="ColorRect" parent="NoNumberDiamonds02" unique_id=1633764904]
 offset_left = 95.04126
@@ -53,7 +53,7 @@ color = Color(0.92156863, 0.9411765, 0.9647059, 1)
 
 [node name="NoNumberHearts02" type="Sprite2D" parent="." unique_id=1639570334]
 scale = Vector2(0.481, 0.507)
-texture = ExtResource("3_io8ge")
+texture = ExtResource("3_hfdj1")
 
 [node name="ColorRect" type="ColorRect" parent="NoNumberHearts02" unique_id=2123669879]
 offset_left = -163.22319
@@ -71,7 +71,7 @@ color = Color(0.92156863, 0.9411765, 0.9647059, 1)
 
 [node name="NoNumberSpades02" type="Sprite2D" parent="." unique_id=1767684404]
 scale = Vector2(0.481, 0.507)
-texture = ExtResource("4_q12di")
+texture = ExtResource("4_3nio0")
 
 [node name="ColorRect" type="ColorRect" parent="NoNumberSpades02" unique_id=708813504]
 offset_left = 95.04119

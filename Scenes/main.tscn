@@ -133,7 +133,7 @@ script = ExtResource("4_u50mg")
 stream = ExtResource("5_cbgmd")
 
 [node name="Deck" type="Node2D" parent="." unique_id=1390371590]
-position = Vector2(295, 1732)
+position = Vector2(295, 1600)
 script = ExtResource("6_1w6v2")
 
 [node name="Sprite2D" type="Sprite2D" parent="Deck" unique_id=1483889973]
@@ -335,10 +335,10 @@ layer = 8
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -494.0
-offset_top = 33.0
-offset_right = -310.0
-offset_bottom = 150.0
+offset_left = -375.0
+offset_top = 29.0
+offset_right = -191.0
+offset_bottom = 146.0
 grow_horizontal = 0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
@@ -520,10 +520,10 @@ theme_override_font_sizes/font_size = 34
 text = "Round: 1 / 19"
 
 [node name="Cay" type="TextureButton" parent="." unique_id=465312848]
-offset_left = 2415.0
-offset_top = 1564.0
-offset_right = 5848.0
-offset_bottom = 4702.0
+offset_left = 2409.0
+offset_top = 1445.0
+offset_right = 5842.0
+offset_bottom = 4583.0
 scale = Vector2(0.08, 0.08)
 texture_normal = ExtResource("19_aqgau")
 

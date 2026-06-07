@@ -20,13 +20,13 @@ var koltuklar = {}
 var local_koltuk_no = 0
 var mp_alinan = [0,0,0,0] # MP koltuk başına kazanılan el
 
-var current_round = 1
+var current_round = 13
 const MAX_CARDS_PER_ROUND = 13
 const TOTAL_ROUNDS = 20
 
 var koz_kart_nesnesi = null
-const KOZ_POSITION = Vector2(300,1732)
-const KOZ_POSITION2 = Vector2(300,1760)
+const KOZ_POSITION = Vector2(300,1600)
+const KOZ_POSITION2 = Vector2(300,1630)
 @onready var cay_sesi: AudioStreamPlayer = $"../Cay/AudioStreamPlayer"
 @onready var round_label = $"../CanvasLayer/RoundLabel" 
 @onready var scoreboard_manager = $"../CanvasLayer2/MarginContainer/VBoxContainer/ScoreBoardPanel"

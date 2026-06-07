@@ -74,7 +74,7 @@ func update_hand_positions():
 	
 	var viewport_size = get_viewport_rect().size
 	var current_center_x = 1500
-	var base_y = 1742 
+	var base_y = 1600
 
 	for i in range(num_cards):
 		var card = player_hand[i]
