@@ -96,9 +96,6 @@ shadow_size = 13
 
 [node name="Main" type="Node2D" unique_id=756828249]
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=2041535941]
-position = Vector2(1442, 902)
-
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1255483684]
 z_index = -2
 offset_left = -13.0
