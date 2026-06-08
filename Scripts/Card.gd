@@ -46,11 +46,9 @@ func setup_appearance():
 		push_error("Kart resmi bulunamadı Yol: " + texture_path)
 		
 	if has_node("ShadowImage") and $CardImage.texture:
-		# 1. Asıl kart resminin aynısını gölgeye de ata
 		$ShadowImage.texture = $CardImage.texture
 		$ShadowImage.scale = $CardImage.scale
 		
-		# 2. SİHİRLİ DOKUNUŞ: Resmi tamamen siyaha/koyu griye boya ve yarı saydam yap
 		$ShadowImage.modulate = Color(0.0, 0.0, 0.0, 0.4) # Siyah ve %40 opaklık
 		
 		

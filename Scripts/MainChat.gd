@@ -27,13 +27,12 @@ func send_message(account, message):
 		
 	var message_copy = message_scene.instantiate()
 	message_copy.set_data(account, message)
-	chat_box.add_child(message_copy) # Mesajı ekledik 
+	chat_box.add_child(message_copy)
 	
 	await scrollbar.changed 
 	
 	
 	scroll_container.scroll_vertical = scrollbar.max_value
-# Enter'a basınca: mesajı ağa yayınla
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	var send_field = $MarginContainer/VBoxContainer/SendMessage
 	if new_text.strip_edges() == "":
@@ -59,7 +58,6 @@ func _on_chat_size_text_submitted(new_text: String) -> void:
 func _mp_mesaj_al(gonderen_isim: String, mesaj: String):
 	_mesaj_goster(gonderen_isim, mesaj)
 	
-# Sadece GÖSTERİM yapar (girişi temizlemez — alıcıların yazdığı silinmesin)
 func _mesaj_goster(gonderen_isim: String, mesaj: String):
 	var scroll_container = $MarginContainer/VBoxContainer/ScrollContainer
 	var chat_box = scroll_container.get_node("ChatBox")
@@ -72,7 +70,7 @@ func _mesaj_goster(gonderen_isim: String, mesaj: String):
 
 	var message_copy = message_scene.instantiate()
 	var acc = Account.new()
-	acc.username = gonderen_isim          # ←—— Account'taki isim alanı buysa
+	acc.username = gonderen_isim          
 	message_copy.set_data(acc, mesaj)
 	chat_box.add_child(message_copy)
 

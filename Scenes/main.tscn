@@ -95,15 +95,18 @@ corner_radius_bottom_left = 16
 shadow_size = 13
 
 [node name="Main" type="Node2D" unique_id=756828249]
-position = Vector2(2, 25)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2041535941]
+position = Vector2(1442, 902)
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1255483684]
 z_index = -2
-offset_left = 3.0
-offset_top = -25.0
-offset_right = 3003.0
-offset_bottom = 1975.0
+offset_left = -13.0
+offset_top = 2.0
+offset_right = 3016.0
+offset_bottom = 2002.0
 texture = ExtResource("1_ee4r6")
+stretch_mode = 1
 
 [node name="CardManager" type="Node2D" parent="." unique_id=1479037975 node_paths=PackedStringArray("koltuk_isim_etiketleri")]
 script = ExtResource("2_gt3je")
@@ -195,7 +198,7 @@ theme_override_font_sizes/font_size = 32
 text = "ALINAN: 0"
 
 [node name="OpponentHand3" parent="." unique_id=550644154 instance=ExtResource("9_7k868")]
-position = Vector2(2600, 916)
+position = Vector2(2580, 916)
 hand_direction = "vertical"
 hand_side = "Right"
 
@@ -536,9 +539,7 @@ layer = 9
 [node name="PausedMenu" parent="CanvasLayer3" unique_id=1386088285 instance=ExtResource("21_o1aky")]
 visible = false
 visibility_layer = 2
-offset_top = 14.0
 offset_right = 130.0
-offset_bottom = 14.0
 
 [node name="GameOverScreen" type="CanvasLayer" parent="." unique_id=208433406]
 script = ExtResource("22_kwxat")

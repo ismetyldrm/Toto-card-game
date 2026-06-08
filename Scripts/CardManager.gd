@@ -7,10 +7,10 @@ var current_turn = 0
 var is_bot_playing = false
 var hovered_card = null
 
-var player_bids = [0, 0, 0, 0] # Her raunt başında alınan tahminler
-var tricks_won = [0, 0, 0, 0]  # O raunt içinde kazanılan el sayısı
-var lead_suit = ""             # Masaya atılan ilk kartın rengi
-var current_trump_suit: String = "" # Raunt boyunca değişmeyecek gerçek koz
+var player_bids = [0, 0, 0, 0] 
+var tricks_won = [0, 0, 0, 0]  
+var lead_suit = ""            
+var current_trump_suit: String = "" 
 
 var card_being_dragged
 var screen_size
@@ -18,9 +18,9 @@ var is_hovering_on_card
 var player_hand_referance
 var koltuklar = {}
 var local_koltuk_no = 0
-var mp_alinan = [0,0,0,0] # MP koltuk başına kazanılan el
+var mp_alinan = [0,0,0,0] 
 
-var current_round = 13
+var current_round = 1
 const MAX_CARDS_PER_ROUND = 13
 const TOTAL_ROUNDS = 20
 
@@ -50,16 +50,15 @@ const KOZ_POSITION2 = Vector2(300,1630)
 @onready var top_right_round_label = $"../CanvasLayer4/RoundLabel"
 
 var player_bids_before = [0,0,0,0]
-var bids_received = 0         # Kaç kişi tahmin yaptı?
-var current_bidder = 0        # Şu an kim tahmin yapıyor?
-var is_bidding_phase = false  # İhale süreci aktif mi
+var bids_received = 0         
+var current_bidder = 0       
+var is_bidding_phase = false  
 var bot_current_won_tricks = [0,0,0]
 var bot_bids = [0,0,0]
-var masadaki_kartlar = {}   # host: bu eldeki kartlar { koltuk: kart_id }
-var sunucu_eller = {}       # host: kalan eller { koltuk: [kart_id,...] }
+var masadaki_kartlar = {}   
+var sunucu_eller = {}       
 @export var koltuk_isim_etiketleri: Array[Label] = []
 
-# CardManager.gd dosyasının başı
 @onready var player_slot = get_node("../CardSlot")
 
 @onready var center_slots = [
@@ -77,20 +76,18 @@ func _ready() -> void:
 	
 
 	if NetworkManager.game_mode == NetworkManager.GameMode.SINGLEPLAYER:
-		start_new_round()   # ←—— MEVCUT TEK KİŞİLİK AKIŞ, HİÇ DEĞİŞMEDİ
+		start_new_round()   
 	else:
 		local_koltuk_no = NetworkManager.local_koltuk_no
 		koltuklar = NetworkManager.koltuk_haritasi
-		# Sahneye girdiğimi host'a bildir
 		if multiplayer.is_server():
-			NetworkManager.oyuncu_sahnede_hazir()   # host kendini doğrudan say
+			NetworkManager.oyuncu_sahnede_hazir()   
 		else:
 			NetworkManager.rpc_id(1, "oyuncu_sahnede_hazir")
 
 func start_new_round():
 	update_round_label()
 	is_bidding_phase = true
-	# 1. TEMİZLİK
 	if is_instance_valid(koz_kart_nesnesi): 
 		koz_kart_nesnesi.queue_free() 
 	koz_kart_nesnesi = null 
@@ -121,7 +118,6 @@ func start_new_round():
 			if has_node(opponent_path):
 				get_node(opponent_path).deal_hand(current_drawn_cards, deck_start_pos)
 	
-	# 5. KOZ BELİRLEME MANTIĞI
 	if settings.is_sanzoti:
 		current_trump_suit = "None"
 		print("--- RAUNT BAŞLADI: SANZOTİ ---")
@@ -145,7 +141,6 @@ func start_new_round():
 func update_round_label():
 	if not top_right_round_label: return
 	
-	# Önce metni belirleyelim (if/elif/else yapısı ile sadece biri çalışır)
 	if current_round == 13:
 		top_right_round_label.text = "Raunt: Sinek / %d" % TOTAL_ROUNDS
 	elif current_round == 14:
@@ -155,12 +150,10 @@ func update_round_label():
 	elif current_round == 16:
 		top_right_round_label.text = "Raunt: Karo / %d" % TOTAL_ROUNDS
 	elif current_round >= 17:
-		top_right_round_label.text = "Raunt: Sanzoti / %d" % TOTAL_ROUNDS # 17-19 için bonus
+		top_right_round_label.text = "Raunt: Sanzoti / %d" % TOTAL_ROUNDS 
 	else:
-		# 1-12 arası normal sayı gösterimi
 		top_right_round_label.text = "Raunt: %d / %d" % [current_round, TOTAL_ROUNDS]
 	
-	# Animasyon kısmı (Her zaman çalışabilir, sorun yok)
 	var tween = get_tree().create_tween()
 	top_right_round_label.pivot_offset = top_right_round_label.size / 2 
 	tween.tween_property(top_right_round_label, "scale", Vector2(1.2, 1.2), 0.1)
@@ -168,7 +161,6 @@ func update_round_label():
 
 func get_card_from_slot(index):
 	var slot = center_slots[index]
-	# CardManager'ın çocukları arasında, pozisyonu bu slotla aynı olan kartı bulur
 	for child in get_children():
 		if child is Node2D and child.has_method("setup_appearance"):
 			if child.global_position.distance_to(slot.global_position) < 40:
@@ -176,13 +168,11 @@ func get_card_from_slot(index):
 	return null
 	
 func spawn_special_trump_indicator(suit_name, start_pos):
-	# 1. Sahneyi oluştur
 	var trump_scene = preload("res://Scenes/trump_card.tscn")
 	var trump_instance = trump_scene.instantiate()
 	add_child(trump_instance)
 	koz_kart_nesnesi = trump_instance
 	
-	# 2. Görünürlük Ayarı
 	for node_name in ["NoNumberClubs02", "NoNumberDiamonds02", "NoNumberHearts02", "NoNumberSpades02"]:
 		if trump_instance.has_node(node_name):
 			trump_instance.get_node(node_name).visible = false
@@ -191,43 +181,36 @@ func spawn_special_trump_indicator(suit_name, start_pos):
 	if trump_instance.has_node(target_node):
 		trump_instance.get_node(target_node).visible = true
 
-	# 3. BAŞLANGIÇ DURUMU
 	trump_instance.global_position = start_pos
-	trump_instance.scale = Vector2(0.1, 0.1) # Pop-up etkisi için küçük başlasın
+	trump_instance.scale = Vector2(0.1, 0.1)
 	trump_instance.rotation_degrees = 0
 	
-	# Destenin tam ölçeği (Senin belirlediğin değer)
 	var deck_scale = Vector2(1, 1) 
 
-	# 4. ANİMASYON (Birebir Eşitlenmiş)
 	var tween = get_tree().create_tween().set_parallel(true)
 	
-	# Konum Animasyonu
 	tween.tween_property(trump_instance, "global_position", KOZ_POSITION2, 0.6)\
 		.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		
-	# Ölçek Animasyonu (Hedef: deck_scale)
 	tween.tween_property(trump_instance, "scale", deck_scale, 0.6)\
 		.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		
-	# Dönüş Animasyonu
 	tween.tween_property(trump_instance, "rotation_degrees", 360, 0.6)\
 		.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 
 func get_round_settings():
 	var settings = {"cards": 1, "trump": "Random", "is_sanzoti": false}
 	
-	if current_round <= 12: # 13'e kadar çıkabiliriz (52/4)
+	if current_round <= 12:
 		settings.cards = current_round
-		settings.trump = "Random" # Desteden çekilecek
+		settings.trump = "Random"
 	elif current_round <= 16:
 		settings.cards = 13
 		var trumps = ["Clubs", "Hearts", "Spades", "Diamonds"]
-		# 14, 15, 16, 17. rauntlar için sabit kozlar
 		settings.trump = trumps[current_round - 13] 
 	else:
 		settings.cards = 13
-		settings.is_sanzoti = true # 18, 19, 20. rauntlar Sanzoti
+		settings.is_sanzoti = true 
 		settings.trump = "None"
 
 	return settings
@@ -257,26 +240,21 @@ func determine_winner():
 			winner_index = i
 			continue
 
-		# --- MANTIK KONTROLÜ (GDD KURALLARI) ---
 		var current_is_trump = (not is_sanzoti and card.suit == trump_suit)
 		var best_is_trump = (not is_sanzoti and best_card.suit == trump_suit)
 
-		# 1. DURUM: Yeni kart KOZ ve yerdeki lider KOZ değilse -> KOZ her zaman kazanır
 		if current_is_trump and not best_is_trump:
 			print("Yeni kart KOZ! Liderliği aldı.")
 			best_card = card
 			winner_index = i
 		
-		# 2. DURUM: İkisi de KOZ ise -> Büyük olan kazanır
 		elif current_is_trump and best_is_trump:
 			if card.value > best_card.value:
 				print("Daha büyük bir KOZ geldi!")
 				best_card = card
 				winner_index = i
 		
-		# 3. DURUM: Koz yoksa ve yeni kart YERDEKİ RENK ise
 		elif not best_is_trump and card.suit == lead_suit:
-			# Eğer lider kart yerdeki renkten değilse VEYA yeni kartın değeri daha büyükse
 			if best_card.suit != lead_suit or card.value > best_card.value:
 				print("Aynı renkten daha büyük kart!")
 				best_card = card
@@ -287,10 +265,9 @@ func determine_winner():
 		print("KAZANAN BELİRLENDİ: Oyuncu ", winner_index)
 		return winner_index
 	
-	return 0 # Hata olursa oyuncuya ver
+	return 0 
 	
 func calculate_scores():
-	# 1. GÖRSEL BİLDİRİM (CardManager'da kalmalı)
 	if tricks_won[0] == player_bids_before[0]:
 		result_label.text = "ÇIKTIN!"
 		result_label.add_theme_color_override("font_color", Color.GREEN)
@@ -310,7 +287,6 @@ func calculate_scores():
 		var is_sanzoti = (current_trump_suit == "None")
 		scoreboard_manager.add_new_round_results(tricks_won, player_bids_before, is_sanzoti)
 	
-	# 3. ZAMANLAMA VE SIFIRLAMA (CardManager'da kalmalı)
 	await get_tree().create_timer(1.5).timeout
 	result_label.hide()
 	
@@ -322,9 +298,7 @@ func check_hand_status():
 		if slot.card_in_slot:
 			full_slots += 1
 	
-	# KURAL 1: Eğer ortada 4 kart varsa temizle
 	if full_slots == 4:
-		# Oyuncunun ne atıldığını görmesi için kısa bir bekleme
 		await get_tree().create_timer(1.2).timeout 
 		clear_table_cards()
 
@@ -352,7 +326,6 @@ func clear_table_cards():
 		target_pos = Vector2(screen_size.x + 500, screen_size.y / 2)
 		add_trick_to_bot(winner_index)
 
-	# Masadaki kartları topla
 	var cards_to_clear = []
 	for child in get_children():
 		if child is Node2D and child != koz_kart_nesnesi and child.has_method("setup_appearance"):
@@ -362,7 +335,6 @@ func clear_table_cards():
 	var tween = get_tree().create_tween().set_parallel(true)
 	
 	for c in cards_to_clear:
-		# 1. Aşırı Hızlı Hareket (0.2 saniye, TRANS_EXPO ile 'Vınn' etkisi)
 		tween.tween_property(c, "rotation_degrees", randf_range(-45, 45), 0.3)
 		tween.tween_property(c, "global_position", target_pos, 0.3)\
 			.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
@@ -378,17 +350,15 @@ func clear_table_cards():
 	for slot in center_slots:
 		slot.card_in_slot = false
 	
-	# Tur/Raunt Sonu Kontrolü
 	if player_hand_referance.player_hand.size() == 0:
 		calculate_scores()
 		await get_tree().create_timer(2.0).timeout
 		next_round()
 	elif current_turn != 0:
 		await get_tree().create_timer(0.8).timeout
-		start_bot_turn() # Kazanan bot ise yeni eli hemen o başlatsın
+		start_bot_turn() 
 		
 		
-# GÜNCELLENMİŞ: Koz kartı artık desteden hedefine uçar
 func create_koz_card(card_name, start_pos):
 	var card_scene = preload("res://Scenes/Card.tscn")
 	var new_koz = card_scene.instantiate()
@@ -403,16 +373,14 @@ func create_koz_card(card_name, start_pos):
 	if new_koz.has_node("Area2D/CollisionShape2D"):
 		new_koz.get_node("Area2D/CollisionShape2D").disabled = true
 	
-	# --- ANİMASYON MANTIĞI ---
-	# Önce desteye ışınla
+
 	new_koz.global_position = start_pos
-	new_koz.scale = Vector2(0.1, 0.1) # Küçük başlasın
+	new_koz.scale = Vector2(0.1, 0.1) 
 	
-	# Tween ile hedefe gönder
 	var tween = get_tree().create_tween().set_parallel(true)
 	tween.tween_property(new_koz, "position", KOZ_POSITION, 0.6).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	tween.tween_property(new_koz, "scale", Vector2(1.1, 1.1), 0.6)
-	tween.tween_property(new_koz, "rotation_degrees", 360, 0.6) # Havalı dursun diye bir tur döner
+	tween.tween_property(new_koz, "rotation_degrees", 360, 0.6) 
 
 	
 	
@@ -434,7 +402,6 @@ func on_hovered_over_card(card):
 func on_hovered_off_card(card):
 	if !card_being_dragged:
 		highlight_card(card, false)
-		#check if hovered off card straight on to another card 
 		var new_card_hovered = raycast_check_for_card()
 		if new_card_hovered:
 			highlight_card(new_card_hovered, true)
@@ -443,7 +410,6 @@ func on_hovered_off_card(card):
 	
 	
 func highlight_card(card, hovered):
-	# Animasyonların birbirini beklemeden aynı anda çalışması için parallel tween oluşturuyoruz
 	var tween = get_tree().create_tween().set_parallel(true)
 	
 	if hovered:
@@ -453,10 +419,8 @@ func highlight_card(card, hovered):
 		card.z_index = 99 
 		hovered_card = card 
 	else:
-		# --- 2. ELASTİK KÜÇÜLME ---
 		tween.tween_property(card, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 		
-		# Orijinal derinliğine dön
 		if card.has_meta("orijinal_z"):
 			card.z_index = card.get_meta("orijinal_z")
 		else:
@@ -477,11 +441,9 @@ func highlight_card(card, hovered):
 
 func _process(delta: float) -> void:
 	if card_being_dragged:
-		# 1. Kartı farenin olduğu yere taşı
 		var mouse_pos = get_global_mouse_position()
 		card_being_dragged.position = Vector2(clamp(mouse_pos.x, 0, screen_size.x), clamp(mouse_pos.y, 0, screen_size.y))
 		
-		# Sürükleme sırasındaki Dinamik Esneme (Gölge) Mantığı
 		if card_being_dragged.has_node("ShadowImage"):
 			var shadow = card_being_dragged.get_node("ShadowImage")
 			var base_shadow_pos = Vector2(0, 40) 
@@ -496,25 +458,20 @@ func _process(delta: float) -> void:
 		if hovered_card and is_instance_valid(hovered_card):
 			var local_mouse = hovered_card.get_local_mouse_position()
 			
-			# (Kartının genişliğine göre 100 sayısını ufaltıp büyütebilirsin)
 			var tilt_x = clamp(local_mouse.x / 100.0, -1.0, 1.0)
 			
-			# 3. Y Ekseni Yatması: Farenin üstte mi altta mı olduğuna göre
 			var tilt_y = clamp(local_mouse.y / 150.0, -1.0, 1.0)
 			
-			# Orijinal yelpaze açısını al ki kart garip bir açıda dönmesin
 			var base_rot = 0.0
 			if hovered_card.has_meta("start_rot"):
 				base_rot = hovered_card.get_meta("start_rot")
 				
-			# Kartı farenin olduğu yöne doğru yatır (Örn: Maksimum 8 derece yatış)
 			var target_rotation = base_rot + (tilt_x * 8.0)
 			
 			hovered_card.rotation_degrees = lerp(hovered_card.rotation_degrees, target_rotation, 15 * delta)
 			
 			if hovered_card.has_node("ShadowImage"):
 				var shadow = hovered_card.get_node("ShadowImage")
-				# Fare sağdaysa gölge sola, fare üstteyse gölge aşağıya kaçar (Fiziksel Derinlik)
 				var shadow_target = Vector2(-tilt_x * 12, 25 - (tilt_y * 12))
 				shadow.position = shadow.position.lerp(shadow_target, 15 * delta)
 
@@ -525,12 +482,10 @@ func _input(event):
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			# Mouse tuşuna BASILDIĞI an (Click Down)
 			var card = raycast_check_for_card()
 			if card:
 				start_drag(card)
 		else:
-			# Mouse tuşu BIRAKILDIĞI an (Click Up/Release)
 			if card_being_dragged:
 				finish_drag()
 			
@@ -583,24 +538,19 @@ func finish_drag():
 	if is_bidding_phase:
 		return
 	
-	# 1. TEMEL KONTROL: Slot bulundu mu ve boş mu?
 	if card_slot_found and card_slot_found.name == "CardSlot" and not card_slot_found.card_in_slot:
 		
-		# 2. RENK TAKİBİ (SUIT FOLLOWING)
-		# Eğer yerdeki renk daha önce belirlendiyse (yani lead_suit boş değilse)
+		
 		if lead_suit != "":
-			# Elimizde yerdeki renkten varsa VE biz başka renk atmaya çalışıyorsak:
 			var elinde_lead_var = player_hand_referance.has_suit(lead_suit)
 			
 			if elinde_lead_var:
-				# KURAL 1: Elinde yerdeki renkten varsa onu takip etmek zorunludur
 				if card_being_dragged.suit.to_lower() != lead_suit.to_lower():
 					print("HATA: Yerdeki rengi (" + lead_suit + ") takip etmelisin!")
 					player_hand_referance.add_card_to_hand(card_being_dragged)
 					card_being_dragged = null
 					return 
 			elif current_trump_suit != "None" and player_hand_referance.has_suit(current_trump_suit):
-				# KURAL 2: Yerdeki renk yok ama kozun varsa, başka renk atamazsın (Zorunlu Koz)
 				if card_being_dragged.suit != current_trump_suit:
 					print("HATA: Kozun varken sinek/kupa kaçamazsın! Koz çakmak zorundasın.")
 					player_hand_referance.add_card_to_hand(card_being_dragged)
@@ -636,8 +586,8 @@ func finish_drag():
 func is_first_card_on_table() -> bool:
 	for slot in center_slots:
 		if slot.card_in_slot:
-			return false # Eğer tek bir slot bile doluysa, bu ilk kart değildir.
-	return true # Hepsi boşsa ilk karttır.
+			return false 
+	return true 
 	
 	
 	
@@ -669,7 +619,6 @@ func start_bot_turn():
 	
 	var opponent_node = get_node_or_null("../OpponentHand" + str(current_turn))
 	
-	# Güvenlik Kontrolü: Düğümler sahnede yoksa hata vermesini ve oyunu durdurmasını engelleriz.
 	if slot_node == null or (current_turn != 0 and opponent_node == null):
 		push_error("HATA: Bot " + str(current_turn) + " için düğümler bulunamadı!")
 		is_bot_playing = false
@@ -687,20 +636,17 @@ func start_bot_turn():
 		card_to_play.is_face_up = true
 		card_to_play.setup_appearance()
 		
-		# --- RENK KİLİTLEME (LEAD SUIT) ---
 		if lead_suit == "":
 			lead_suit = card_to_play.suit
 			print("Yerdeki Renk KİLİTLENDİ (Bot ", current_turn, "): ", lead_suit)
 			
 		slot_node.card_in_slot = true
 		
-		# --- GÖRSEL AKICILIK: Animasyonu BEKLEME ---
 		var tween = get_tree().create_tween().set_parallel(true)
 		tween.tween_property(card_to_play, "global_position", slot_node.global_position, 0.4)\
 			.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween.tween_property(card_to_play, "rotation_degrees", 0, 0.4)
 		
-		# KRİTİK: Animasyon bitmeden sırayı geçmiyoruz ki oyuncu ne olduğunu görsün.
 		await tween.finished
 		
 		opponent_node.update_hand_positions()
@@ -708,17 +654,14 @@ func start_bot_turn():
 		is_bot_playing = false
 		next_turn() 
 	else:
-		# Botun atacak kartı yoksa (hata veya pas durumu)
 		is_bot_playing = false
 		next_turn()
 		
-# CardManager.gd
 
 func select_card_for_bot(hand_node):
 	var hand = hand_node.cards_in_hand
 	if hand.size() == 0: return null
 	print("DEBUG: Yerdeki Renk: ", lead_suit, " | Botun Elindeki Bir Kartın Rengi: ", hand[0].suit)
-	# 1. KURAL: Eğer masaya İLK kartı bot atıyorsa (Lead)
 	if lead_suit == "":
 		var chosen_card = hand.pick_random()
 		hand.erase(chosen_card)
@@ -782,11 +725,9 @@ func raycast_check_for_card():
 	
 	
 func get_card_with_highest_z_index(result):
-	# İlk kartı en yüksek z_index'e sahipmiş gibi kabul ederek başlıyoruz
 	var highest_z_card = result[0].collider.get_parent()
 	var highest_z_index = highest_z_card.z_index
 	
-	# Listenin geri kalanını kontrol ediyoruz
 	for i in range(1, result.size()):
 		var current_card = result[i].collider.get_parent()
 		if current_card.z_index > highest_z_index:
@@ -801,7 +742,6 @@ func start_bidding_phase():
 	bids_received = 0
 	player_bids_before = [0, 0, 0, 0]
 	
-	# İhale, raundu başlatacak olan kişiden (current_turn) başlar
 	current_bidder = current_turn 
 	
 	print("--- İHALE BAŞLADI ---")
@@ -814,7 +754,6 @@ func process_next_bid():
 		return
 		
 	if current_bidder == 0:
-		# Sadece oyuncu sırası geldiğinde düğmeyi aç ve paneli göster
 		confirm_button.disabled = false
 		show_bidding_ui()
 	else:
@@ -831,7 +770,6 @@ func show_bidding_ui():
 		spin_boxes[i].max_value = max_cards
 		spin_boxes[i].editable = (i == 3)
 		
-		# Eğer ilk defa açılıyorsa sıfırla
 		if bids_received == 0: 
 			spin_boxes[i].value = 0
 			
@@ -855,7 +793,6 @@ func bot_make_bid(bot_index):
 	var hand = opponent_node.cards_in_hand
 	var bid = 0
 	
-	# --- AKILLI TAHMİN ANALİZİ ---
 	for card in hand:
 		var alabilir_mi = false
 		
@@ -869,7 +806,6 @@ func bot_make_bid(bot_index):
 		if alabilir_mi:
 			bid += 1
 	
-	# 2. Tahmini veritabanına kaydet
 	player_bids_before[bot_index] = bid
 	
 	var array_index = bot_index - 1
@@ -955,7 +891,6 @@ func update_score_display():
 
 func _on_score_board_toggle_pressed() -> void:
 	if scoreboard_manager:
-		# Görünürlüğü tersine çevir (Açıksa kapat, kapalıysa aç)
 		scoreboard_manager.visible = !scoreboard_manager.visible
 		print("Tablo durumu: ", scoreboard_manager.visible)
 	else:
@@ -995,17 +930,15 @@ func reset_bot_trackers():
 		if bot_player_bids[i]["target"] and bot_player_bids[i]["current"]:
 			bot_player_bids[i]["target"].text = "HEDEF: 0"
 			bot_player_bids[i]["current"].text = "ALINAN: 0"
-# Mutlak koltuğu, yerel oyuncuya göre görsel el düğümüne çevirir
 func _koltuk_to_el_node(mutlak_koltuk: int) -> Node:
 	var relative = (mutlak_koltuk - local_koltuk_no + 4) % 4
 	match relative:
-		0: return player_hand_referance         # ben → alt
-		1: return get_node("../OpponentHand1")   # sol
-		2: return get_node("../OpponentHand2")   # üst
-		3: return get_node("../OpponentHand3")   # sağ
+		0: return player_hand_referance        
+		1: return get_node("../OpponentHand1")   
+		2: return get_node("../OpponentHand2")   
+		3: return get_node("../OpponentHand3")   
 	return null
 
-# SADECE host çalıştırır: desteyi kurar, dağıtır, herkese yollar
 func _mp_oyunu_baslat():
 	masadaki_kartlar.clear()
 	lead_suit = ""
@@ -1014,7 +947,6 @@ func _mp_oyunu_baslat():
 	var settings = get_round_settings()
 	var card_count = settings.cards
 
-	# 4 koltuğa kart dağıt
 	var eller := {}
 	
 	for koltuk in range(4):
@@ -1025,7 +957,6 @@ func _mp_oyunu_baslat():
 		eller[koltuk] = kartlar
 	sunucu_eller = eller.duplicate(true) 
 
-	# Koz belirle (1. raunt normal koz çeker)
 	var koz_id := ""
 	var koz_suit := ""
 	if settings.is_sanzoti:
@@ -1037,15 +968,12 @@ func _mp_oyunu_baslat():
 		if koz_id:
 			koz_suit = koz_id.split("_")[0].capitalize()
 
-	# Başlangıç koltuğu (single player'daki formülün aynısı)
 	var baslangic = (3 + (current_round - 1) * 3) % 4
 
-	# Herkesin kaç kartı var bilgisi
 	var sayilar := {}
 	for k in range(4):
 		sayilar[k] = eller[k].size()
 
-	# Her oyuncuya KENDİ kartlarını yolla (başkasının kartını göndermiyoruz)
 	for peer_id in koltuklar.keys():
 		var hedef_koltuk = koltuklar[peer_id]
 		var o_kisinin_kartlari = eller[hedef_koltuk]
@@ -1060,10 +988,9 @@ func _mp_start_bidding(baslangic: int):
 	bids_received = 0
 	player_bids_before = [0, 0, 0, 0]
 	var max_cards = get_round_settings().cards
-	rpc("_mp_bidding_start", max_cards, baslangic)  # panel herkeste açılsın
+	rpc("_mp_bidding_start", max_cards, baslangic)  
 	_mp_bidding_next()
 	
-# İhale başında herkeste paneli açar, tüm kutuları sıfırlar ve kilitler
 @rpc("authority", "call_local", "reliable")
 func _mp_bidding_start(max_cards: int, baslangic: int):
 	is_bidding_phase = true
@@ -1075,22 +1002,19 @@ func _mp_bidding_start(max_cards: int, baslangic: int):
 		spin_boxes[i].editable = false
 	confirm_button.disabled = true
 
-# SADECE host: sıradaki tahmin sahibine geç ya da bitir
 func _mp_bidding_next():
 	if bids_received >= 4:
 		rpc("_mp_bidding_finished")
 		return
 	rpc("_mp_bidding_turn", current_bidder)
 
-# Client tahminini host'a yollar; host doğrular ve kaydeder
 @rpc("any_peer", "reliable")
 func _mp_submit_bid(bid: int):
 	if not multiplayer.is_server():
 		return
 	var sender = multiplayer.get_remote_sender_id()
 	if sender == 0:
-		sender = 1  # host kendi yerel çağrısı
-	# Gönderen gerçekten sıradaki tahmin sahibi mi?
+		sender = 1  
 	if koltuklar.get(sender, -1) != current_bidder:
 		print("Sıra dışı tahmin reddedildi: ", sender)
 		return
@@ -1100,7 +1024,6 @@ func _mp_submit_bid(bid: int):
 	current_bidder = (current_bidder + 1) % 4
 	_mp_bidding_next()
 
-# Sıra kimdeyse onun panelini açar, diğerlerinde kapatır
 @rpc("authority", "call_local", "reliable")
 func _mp_bidding_turn(bidder_seat: int):
 	current_bidder = bidder_seat
@@ -1115,7 +1038,7 @@ func _mp_bidding_turn(bidder_seat: int):
 
 @rpc("authority", "call_local", "reliable")
 func _mp_show_bid(seat: int, bid: int):
-	player_bids_before[seat] = bid   # herkes kaydetsin (skor için)
+	player_bids_before[seat] = bid   
 	var idx = _seat_to_spin_index(seat)
 	spin_boxes[idx].value = bid
 	if seat == local_koltuk_no:
@@ -1132,9 +1055,7 @@ func _mp_bidding_finished():
 	bidding_panel.hide()
 	_mp_sira_goster()
 	print("İHALE TAMAMLANDI (MP): ", player_bids_before)
-	# Sıradaki adım: kart atma fazı (henüz bağlanmadı)
 
-# Düğüm ağacında isme göre Label arar (opponent hand'lerin yapısı farklı olduğu için)
 func _find_label(node, label_name: String):
 	if node == null:
 		return null
@@ -1146,7 +1067,6 @@ func _find_label(node, label_name: String):
 			return r
 	return null
 	
-# Bir koltuğu, yerel oyuncuya göre spin kutusu index'ine çevirir (kendi kutun = 3)
 func _seat_to_spin_index(seat: int) -> int:
 	var relative = (seat - local_koltuk_no + 4) % 4
 	return 3 if relative == 0 else relative - 1
@@ -1163,13 +1083,11 @@ func _sira_metni(seat: int) -> String:
 	return yon + " oyuncu tahmin ediyor..."
 	
 
-# Her client'ta çalışır: kendi elini açık, diğerlerini kapalı dizer
 @rpc("authority", "reliable")
 func _mp_elini_dagit(benim_kartlar: Array, sayilar: Dictionary, koz_id: String, koz_suit: String, baslangic: int, raunt: int):
 	current_round = raunt
 	update_round_label()
 
-	# Eski raunttan kalanları temizle
 	if is_instance_valid(koz_kart_nesnesi):
 		koz_kart_nesnesi.queue_free()
 	koz_kart_nesnesi = null
@@ -1199,9 +1117,8 @@ func _mp_elini_dagit(benim_kartlar: Array, sayilar: Dictionary, koz_id: String, 
 				sahte.append("clubs_02")
 			hand_node.deal_hand(sahte, deck_start_pos)
 
-	# Koz görseli (raunt tipine göre)
 	if koz_suit == "None":
-		pass  # sanzoti, koz yok
+		pass 
 	elif koz_id == "":
 		spawn_special_trump_indicator(koz_suit, deck_start_pos)  # 13-16 sabit koz
 	else:
@@ -1213,7 +1130,6 @@ func _mp_elini_dagit(benim_kartlar: Array, sayilar: Dictionary, koz_id: String, 
 func _mp_isimleri_uygula():
 	var isimler = NetworkManager.koltuk_isimleri
 
-	# İhale panelindeki sütun isimleri (kendi sütunun en sağda)
 	for seat in range(4):
 		var idx = _seat_to_spin_index(seat)
 		var kutu = spin_boxes[idx]
@@ -1221,17 +1137,15 @@ func _mp_isimleri_uygula():
 			var lbl = _ilk_label_bul(kutu.get_parent())
 			if lbl:
 				lbl.text = str(isimler.get(seat, "Oyuncu"))
-	# Masadaki (orta) oyuncu isim etiketleri — sadece 3 rakip
 	
 	for seat in range(4):
 		var relative = (seat - local_koltuk_no + 4) % 4
 		if relative == 0:
-			continue   # kendim → ortada etiketim yok (alttayım)
-		var idx = relative - 1   # relative 1→0 (sol), 2→1 (üst), 3→2 (sağ)
+			continue  
+		var idx = relative - 1   
 		if idx < koltuk_isim_etiketleri.size() and koltuk_isim_etiketleri[idx]:
 			koltuk_isim_etiketleri[idx].text = str(isimler.get(seat, "Oyuncu"))
 			
-	# Skor tablosu: yerel oyuncu hep son sütunda ("Siz") olacak şekilde göreli sıra
 	if scoreboard_manager and scoreboard_manager.has_method("set_player_names"):
 		var sira = [
 			(local_koltuk_no + 1) % 4,
@@ -1263,7 +1177,7 @@ func _mp_finish_drag():
 		and _mp_kart_gecerli_mi(card)
 	if gecerli:
 		if multiplayer.is_server():
-			_mp_kart_at(card.card_id)        # host doğrudan çağırsın
+			_mp_kart_at(card.card_id)        
 		else:
 			rpc_id(1, "_mp_kart_at", card.card_id)
 	else:
@@ -1282,7 +1196,6 @@ func _mp_kart_gecerli_mi(card) -> bool:
 		return card.suit == current_trump_suit
 	return true
 
-# Client kartı host'a yollar; host doğrular, herkese yayınlar
 @rpc("any_peer", "reliable")
 func _mp_kart_at(card_id: String):
 	if not multiplayer.is_server():
@@ -1302,7 +1215,7 @@ func _mp_kart_at(card_id: String):
 	if lead_suit == "":
 		lead_suit = card_id.split("_")[0].capitalize()
 	masadaki_kartlar[seat] = card_id
-	rpc("_mp_kart_oynandi", seat, card_id)   # görsel yerleştirme
+	rpc("_mp_kart_oynandi", seat, card_id)   
 
 	if masadaki_kartlar.size() >= 4:
 		_mp_el_sonlandir()
@@ -1310,7 +1223,6 @@ func _mp_kart_at(card_id: String):
 		current_turn = (current_turn + 3) % 4
 		rpc("_mp_sira_guncelle", current_turn)
 
-# Herkeste: kartı doğru slota yerleştir
 @rpc("authority", "call_local", "reliable")
 func _mp_kart_oynandi(seat: int, card_id: String):
 	if lead_suit == "":
@@ -1347,7 +1259,6 @@ func _mp_kart_oynandi(seat: int, card_id: String):
 		kart_node.get_node("ShadowImage").visible = false
 	
 	if seat == local_koltuk_no:
-		# Single player'daki gibi: kendi kartım ANINDA oturur (tween yok, rotation'a dokunma)
 		kart_node.scale = Vector2(1.0, 1.0)
 		kart_node.global_position = slot.global_position
 	
@@ -1362,20 +1273,18 @@ func _mp_sira_guncelle(yeni_sira: int):
 	current_turn = yeni_sira
 	_mp_sira_goster()
 
-# Sırası gelen oyuncunun elini parlatır, diğerlerini soluklaştırır
 func _mp_sira_goster():
 	for seat in range(4):
 		var hand_node = _koltuk_to_el_node(seat)
 		if hand_node == null:
 			continue
 		if is_bidding_phase:
-			hand_node.modulate = Color(1, 1, 1, 1)          # ihalede hepsi normal
+			hand_node.modulate = Color(1, 1, 1, 1)          
 		elif seat == current_turn:
-			hand_node.modulate = Color(1, 1, 1, 1)          # sıradaki: parlak
+			hand_node.modulate = Color(1, 1, 1, 1)          
 		else:
-			hand_node.modulate = Color(0.55, 0.55, 0.55, 1) # diğerleri: soluk
+			hand_node.modulate = Color(0.55, 0.55, 0.55, 1) 
 
-# SADECE host: 4 kart dolunca kazananı bul, süpür, sırayı kazanana ver
 func _mp_el_sonlandir():
 	var kazanan = _mp_kazanani_belirle()
 	tricks_won[kazanan] += 1
@@ -1384,7 +1293,6 @@ func _mp_el_sonlandir():
 	lead_suit = ""
 	current_turn = kazanan
 	rpc("_mp_sira_guncelle", current_turn)
-	# Round bitti mi? (eller boşaldıysa) → SONRAKİ ADIM: skor + yeni raunt
 	if sunucu_eller.get(kazanan, []).size() == 0:
 		_mp_raunt_bitti()
 
@@ -1421,7 +1329,6 @@ func _kart_degeri(val_str: String) -> int:
 		"jack": return 11
 		_: return val_str.to_int()
 
-# Herkeste: masadaki kartları kazanana doğru süpür
 @rpc("authority", "call_local", "reliable")
 func _mp_el_temizle(kazanan_seat: int):
 	mp_alinan[kazanan_seat] += 1
@@ -1472,20 +1379,18 @@ func _kart_olustur(card_id: String):
 	c.setup_appearance()
 	return c
 	
-# SADECE host: raunt sonu skorları yolla, sonra yeni rauntu başlat
 func _mp_raunt_bitti():
-	await get_tree().create_timer(1.5).timeout   # son el süpürülsün
+	await get_tree().create_timer(1.5).timeout   
 	rpc("_mp_skor_goster", tricks_won.duplicate(), player_bids_before.duplicate())
-	await get_tree().create_timer(3.0).timeout   # skor görünsün
+	await get_tree().create_timer(3.0).timeout   
 
 	current_round += 1
 	if current_round > TOTAL_ROUNDS:
 		rpc("_mp_oyun_bitti")
 		return
 	tricks_won = [0, 0, 0, 0]
-	_mp_oyunu_baslat()   # yeni rauntu dağıt
+	_mp_oyunu_baslat()   
 
-# Herkeste: ÇIKTIN/BATTIN + skor tablosuna ekle
 @rpc("authority", "call_local", "reliable")
 func _mp_skor_goster(final_tricks: Array, final_bids: Array):
 	var alinan = final_tricks[local_koltuk_no]
@@ -1511,7 +1416,7 @@ func _mp_skor_goster(final_tricks: Array, final_bids: Array):
 
 @rpc("authority", "call_local", "reliable")
 func _mp_oyun_bitti():
-	is_bidding_phase = true   # girişi kilitle
+	is_bidding_phase = true   
 	result_label.text = "OYUN BİTTİ!"
 	result_label.add_theme_color_override("font_color", Color.WHITE)
 	result_label.scale = Vector2(1, 1)
@@ -1543,10 +1448,8 @@ func _mp_skor_etiketleri_sifirla():
 		if c: c.text = "ALINAN: 0"
 		
 func show_game_over_screen():
-	# main.tscn altındaki hazır GameOverScreen düğümünü buluyoruz
 	var game_over_screen = get_node("../GameOverScreen") 
 	
-	# Puanları Scoreboard'dan Çek
 	var raw_scores = scoreboard_manager.total_scores 
 	var is_mp = (NetworkManager.game_mode == NetworkManager.GameMode.MULTIPLAYER)
 	

@@ -5,7 +5,6 @@ const CARD_WIDTH = 200
 const HAND_Y_POSITION = 1600 
 
 var player_hand = []
-# Nil hatasını önlemek için ekran ortasını burada hesaplıyoruz
 @onready var center_screen_x = get_viewport_rect().size.x / 2
 @onready var deal_sound = $DealSound
 

@@ -13,7 +13,6 @@ func connect_card_signals(card):
 
 
 func deal_hand(card_names: Array, start_global_pos: Vector2):
-	# 1. Eski eli temizle
 	for card in cards_in_hand:
 		if is_instance_valid(card): card.queue_free()
 	cards_in_hand.clear()
@@ -26,32 +25,25 @@ func deal_hand(card_names: Array, start_global_pos: Vector2):
 		
 		var new_card: Node2D
 		
-		# --- MULTIPLAYER / SINGLEPLAYER AKILLI GEÇİŞ ---
 		if item is Node2D:
-			# Eğer multiplayer oynuyorsak: CardManager bize zaten üretilmiş NESNE yolladı
 			new_card = item
 			
-			# Kart rakipten geldiği için onun el düğümünün (OpponentHand) altına taşıyoruz (Reparent)
 			if new_card.get_parent():
 				new_card.get_parent().remove_child(new_card)
 			add_child(new_card)
 		else:
-			# Eğer singleplayer oynuyorsak: Bize sadece kartın adı String olarak geldi
 			new_card = card_scene.instantiate()
 			new_card.card_id = item
 			new_card.name = item
 			add_child(new_card) 
 		
-		# 3. Kartın multiplayer temel ayarları (Rakiplerin kartı kapalı durmalı)
 		new_card.is_draggable = false
 		new_card.is_face_up = false 
 		new_card.setup_appearance()
 		
-		# Kartı destenin başladığı ortak dünya koordinatına ışınla
 		new_card.global_position = start_global_pos
 		cards_in_hand.append(new_card)
 		
-	# 4. Yelpaze şeklinde dizilim animasyonunu tetikle
 	update_hand_positions()
 
 func update_hand_positions():

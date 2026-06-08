@@ -29,7 +29,6 @@ var tutorial_pages = [
 
 func _ready() -> void:
 	$VBoxContainer/Button.grab_focus()
-	# Oyun başlarken paneli gizle
 	if tutorial_panel:
 		tutorial_panel.hide()
 
@@ -44,12 +43,10 @@ func _on_oda_ara_pressed() -> void:
 	print("Oda Ara penceresi açılıyor...")
 	_clear_popups()
 	
-	# Oda Bul sahnesini canlandırıp (instantiate) ekrana ekliyoruz
 	active_oda_bul_popup = ODA_BUL_POPUP_SCENE.instantiate()
 	add_child(active_oda_bul_popup)
 	active_oda_bul_popup.show()
 
-# main_menu.gd dosyanın içindeki ilgili kısım:
 
 
 func _on_oda_aç_pressed() -> void:
@@ -67,7 +64,6 @@ func _on_cikis_pressed() -> void:
 	print("Oyundan çıkılıyor. Görüşmek üzere!")
 	get_tree().quit()
 
-# Pencerelerin üst üste binmesini engelleyen temizlik fonksiyonu
 func _clear_popups():
 	if is_instance_valid(active_oda_ac_popup):
 		active_oda_ac_popup.queue_free()
@@ -75,24 +71,20 @@ func _clear_popups():
 		active_oda_bul_popup.queue_free()
 
 
-# "Nasıl Oynanır?" Butonu (Senin Button6 dediğin buton)
 func _on_button_6_pressed() -> void:
 	print("Nasıl Oynanır penceresi açılıyor...")
-	_clear_popups() # Diğer popupları temizle
+	_clear_popups() 
 	
 	current_page = 0
 	_update_tutorial_screen()
 	tutorial_panel.show()
 	
 func _update_tutorial_screen():
-	# Bbcode (Kalın yazı vb.) desteğini açıp metni basıyoruz
 	rules_text.bbcode_enabled = true
 	rules_text.text = tutorial_pages[current_page]
 	
-	# Sayfa numarasını güncelle (Örn: 1 / 5)
 	page_label.text = str(current_page + 1) + " / " + str(tutorial_pages.size())
 	
-	# İlk sayfadaysak Geri butonunu, son sayfadaysak İleri butonunu kilitle
 	btn_geri.disabled = (current_page == 0)
 	btn_ileri.disabled = (current_page == tutorial_pages.size() - 1)
 
